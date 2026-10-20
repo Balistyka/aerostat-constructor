@@ -171,7 +171,8 @@ private fun EditorForm(
         Text(result.status.explanation, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 
-    val geometryFields = result.relevantFields.filter { it !in materialFields }
+    val gasFields = Calculator.gasFields(input)
+    val geometryFields = result.relevantFields.filter { it !in materialFields && it !in gasFields }
     if (result.unavailableReason != null) {
         SectionCard(title = Uk.SECTION_DIMENSIONS, onHelp = { onHelp(HelpTopics.general.first { it.id == "pear" }) }) {
             Text(result.unavailableReason, color = MaterialTheme.colorScheme.error, modifier = Modifier.testTag("unavailable"))
@@ -203,7 +204,6 @@ private fun EditorForm(
         }
     }
 
-    val gasFields = Calculator.gasFields(input)
     if (gasFields.isNotEmpty()) {
         SectionCard(title = Uk.SECTION_GAS, onHelp = { onHelp(HelpTopics.general.first { it.id == "archimedes" }) }) {
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
