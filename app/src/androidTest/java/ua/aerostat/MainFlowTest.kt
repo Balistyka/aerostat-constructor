@@ -42,7 +42,7 @@ class MainFlowTest {
         // Ховаємо клавіатуру, щоб вона не перекривала кнопку створення.
         Espresso.closeSoftKeyboard()
         rule.waitForIdle()
-        rule.onNodeWithTag("wizard_create").performScrollTo().performClick()
+        rule.onNodeWithTag("wizard_create").performClick()
         waitTag("project_name")
     }
 

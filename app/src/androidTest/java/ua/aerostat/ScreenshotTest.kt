@@ -49,7 +49,7 @@ class ScreenshotTest {
         rule.onNodeWithTag("wizard_name").performScrollTo().performTextReplacement("Конверт 6 × 10 м")
         Espresso.closeSoftKeyboard()
         rule.waitForIdle()
-        rule.onNodeWithTag("wizard_create").performScrollTo().performClick()
+        rule.onNodeWithTag("wizard_create").performClick()
         waitTag("field_ENVELOPE_WIDTH")
         rule.onNodeWithTag("field_ENVELOPE_WIDTH").performScrollTo().performTextReplacement("6")
         rule.onNodeWithTag("field_ENVELOPE_HEIGHT").performScrollTo().performTextReplacement("10")
