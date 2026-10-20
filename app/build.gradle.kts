@@ -19,7 +19,18 @@ android {
         resourceConfigurations += listOf("uk")
     }
 
+    signingConfigs {
+        // Стабільний налагоджувальний ключ (не секретний), щоб нові debug-APK встановлювалися поверх старих.
+        getByName("debug") {
+            storeFile = file("debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
+
     buildTypes {
+        debug { signingConfig = signingConfigs.getByName("debug") }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
