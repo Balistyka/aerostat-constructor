@@ -12,6 +12,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextReplacement
+import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Rule
@@ -46,6 +47,8 @@ class ScreenshotTest {
         waitTag("wizard_create")
         shot("02_wizard")
         rule.onNodeWithTag("wizard_name").performScrollTo().performTextReplacement("Конверт 6 × 10 м")
+        Espresso.closeSoftKeyboard()
+        rule.waitForIdle()
         rule.onNodeWithTag("wizard_create").performScrollTo().performClick()
         waitTag("field_ENVELOPE_WIDTH")
         rule.onNodeWithTag("field_ENVELOPE_WIDTH").performScrollTo().performTextReplacement("6")

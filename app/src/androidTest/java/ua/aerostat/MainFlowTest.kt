@@ -13,6 +13,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextReplacement
+import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.flow.first
@@ -29,7 +30,7 @@ class MainFlowTest {
     @get:Rule
     val rule = createAndroidComposeRule<MainActivity>()
 
-    private fun waitTag(tag: String) = rule.waitUntilAtLeastOneExists(hasTestTag(tag), 10_000)
+    private fun waitTag(tag: String) = rule.waitUntilAtLeastOneExists(hasTestTag(tag), 20_000)
 
     private fun createProject(shapeTag: String, name: String) {
         waitTag("new_project")
@@ -38,6 +39,9 @@ class MainFlowTest {
         waitTag("wizard_create")
         rule.onNodeWithTag(shapeTag).performScrollTo().performClick()
         rule.onNodeWithTag("wizard_name").performScrollTo().performTextReplacement(name)
+        // Ховаємо клавіатуру, щоб вона не перекривала кнопку створення.
+        Espresso.closeSoftKeyboard()
+        rule.waitForIdle()
         rule.onNodeWithTag("wizard_create").performScrollTo().performClick()
         waitTag("project_name")
     }

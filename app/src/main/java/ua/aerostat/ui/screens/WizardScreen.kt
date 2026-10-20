@@ -21,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -54,7 +55,7 @@ fun WizardScreen(
         Column(Modifier.fillMaxSize()) {
             AeroTopBar(Uk.WIZARD_TITLE, onBack = onBack)
             Column(
-                Modifier.fillMaxSize().imePadding().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp),
+                Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 Text(Uk.WIZARD_STEP_SHAPE, style = MaterialTheme.typography.titleLarge)
@@ -81,9 +82,16 @@ fun WizardScreen(
                     keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
                     shape = MaterialTheme.shapes.medium,
                 )
+            }
+            // Кнопка створення завжди на екрані, щоб її не доводилося шукати прокруткою.
+            Surface(color = MaterialTheme.colorScheme.surfaceContainerLow, tonalElevation = 3.dp) {
                 Button(
                     onClick = { onCreate(name, shape, variant) },
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp).testTag("wizard_create"),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .imePadding()
+                        .padding(horizontal = 20.dp, vertical = 12.dp)
+                        .testTag("wizard_create"),
                 ) { Text(Uk.WIZARD_CREATE, modifier = Modifier.padding(vertical = 6.dp)) }
             }
         }
