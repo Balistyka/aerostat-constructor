@@ -207,6 +207,44 @@ class CalculatorTest {
         assertEquals(closed + PI * 0.3, open.blankArea!!, 1e-9)
     }
 
+    @Test fun gatheredEnvelopeAreaIsTwoWalls() {
+        val r = Calculator.calculate(
+            sphere.copy(
+                shape = ShapeType.GATHERED, envelopeWidth = "6", envelopeHeight = "10",
+                gatherPart = "1,1", wastePercent = "0",
+            ),
+        )
+        assertFalse(r.hasErrors)
+        // 2 × 6 × 10 = 120 м²
+        assertEquals(120.0, r.blankArea!!, 1e-9)
+        assertEquals(120.0 * 30e-6 * 920, r.filmMass!!, 1e-9)
+        assertEquals(ModelStatus.APPROXIMATE, r.status)
+    }
+
+    @Test fun gatheredEnvelopeWorkingHeightAndVolume() {
+        val r = Calculator.calculate(
+            sphere.copy(shape = ShapeType.GATHERED, envelopeWidth = "6", envelopeHeight = "10", gatherPart = "1,1"),
+        )
+        assertEquals(8.9, r.geometry.first { it.label.startsWith("Робоча висота") }.value, 1e-9)
+        // Верхня оцінка об'єму: W² × (H − h) / π
+        assertEquals(36.0 * 8.9 / PI, r.geometry.first { it.label.startsWith("Об'єм") }.value, 1e-9)
+    }
+
+    @Test fun gatherPartCannotExceedHeight() {
+        val r = Calculator.calculate(
+            sphere.copy(shape = ShapeType.GATHERED, envelopeWidth = "6", envelopeHeight = "10", gatherPart = "10"),
+        )
+        assertNotNull(r.errors[Field.GATHER_PART])
+    }
+
+    @Test fun gatherPartZeroIsAllowed() {
+        val r = Calculator.calculate(
+            sphere.copy(shape = ShapeType.GATHERED, envelopeWidth = "6", envelopeHeight = "10", gatherPart = "0"),
+        )
+        assertFalse(r.hasErrors)
+        assertEquals(10.0, r.geometry.first { it.label.startsWith("Робоча висота") }.value, 1e-9)
+    }
+
     @Test fun pearIsUnavailable() {
         val r = Calculator.calculate(sphere.copy(shape = ShapeType.PEAR))
         assertEquals(ModelStatus.UNAVAILABLE, r.status)

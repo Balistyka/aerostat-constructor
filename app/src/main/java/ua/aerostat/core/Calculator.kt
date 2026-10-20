@@ -88,6 +88,7 @@ object Calculator {
             ShapeType.SPHERE -> listOf(Field.DIAMETER, Field.ROLL_WIDTH, Field.SEAM, Field.GORE_COUNT)
             ShapeType.CYLINDER -> listOf(Field.DIAMETER, Field.CYLINDER_LENGTH, Field.ROLL_WIDTH, Field.SEAM)
             ShapeType.SLEEVE -> listOf(Field.SLEEVE_FLAT_WIDTH, Field.SLEEVE_LENGTH, Field.SEAM)
+            ShapeType.GATHERED -> listOf(Field.ENVELOPE_WIDTH, Field.ENVELOPE_HEIGHT, Field.GATHER_PART, Field.SEAM)
             ShapeType.PEAR -> emptyList()
         }
         val appendix = if (input.variant == EnvelopeVariant.OPEN_APPENDIX && input.shape != ShapeType.PEAR)
@@ -101,6 +102,9 @@ object Calculator {
         Field.CYLINDER_LENGTH -> input.cylinderLength
         Field.SLEEVE_FLAT_WIDTH -> input.sleeveFlatWidth
         Field.SLEEVE_LENGTH -> input.sleeveLength
+        Field.ENVELOPE_WIDTH -> input.envelopeWidth
+        Field.ENVELOPE_HEIGHT -> input.envelopeHeight
+        Field.GATHER_PART -> input.gatherPart
         Field.GORE_COUNT -> input.goreCount
         Field.APPENDIX_DIAMETER -> input.appendixDiameter
         Field.APPENDIX_LENGTH -> input.appendixLength
@@ -118,6 +122,9 @@ object Calculator {
         Field.CYLINDER_LENGTH -> input.copy(cylinderLength = value)
         Field.SLEEVE_FLAT_WIDTH -> input.copy(sleeveFlatWidth = value)
         Field.SLEEVE_LENGTH -> input.copy(sleeveLength = value)
+        Field.ENVELOPE_WIDTH -> input.copy(envelopeWidth = value)
+        Field.ENVELOPE_HEIGHT -> input.copy(envelopeHeight = value)
+        Field.GATHER_PART -> input.copy(gatherPart = value)
         Field.GORE_COUNT -> input.copy(goreCount = value)
         Field.APPENDIX_DIAMETER -> input.copy(appendixDiameter = value)
         Field.APPENDIX_LENGTH -> input.copy(appendixLength = value)
@@ -253,6 +260,36 @@ object Calculator {
                 }
                 assumptions += "Об'єм рукава — верхня оцінка як для циліндра того ж периметра; заварені сплющені кінці зменшують реальний об'єм."
                 assumptions += "Площа заготовки рукава не дорівнює площі поверхні наповненої оболонки."
+            }
+            ShapeType.GATHERED -> {
+                val w = v[Field.ENVELOPE_WIDTH]
+                val h = v[Field.ENVELOPE_HEIGHT]
+                val g = v[Field.GATHER_PART]
+                if (h != null && g != null && g >= h) {
+                    errors[Field.GATHER_PART] = "Частина під збір має бути меншою за висоту конверта"
+                }
+                if (w != null && h != null) {
+                    val area = Geometry.sleeveWallArea(w, h)
+                    envelopeArea = area
+                    geometry += ResultRow("Ширина у складеному вигляді", w, "м")
+                    geometry += ResultRow("Периметр рукава", 2 * w, "м")
+                    geometry += ResultRow("Еквівалентний діаметр", Geometry.sleeveEquivalentDiameter(w), "м")
+                    geometry += ResultRow("Висота конверта", h, "м")
+                    geometry += ResultRow("Площа плівки (2 × ширина × висота)", area, "м²")
+                    if (g != null && Field.GATHER_PART !in errors) {
+                        val work = h - g
+                        geometry += ResultRow("Частина під збір знизу", g, "м")
+                        geometry += ResultRow("Робоча висота (над збором)", work, "м")
+                        geometry += ResultRow("Об'єм, верхня оцінка", Geometry.sleeveVolumeUpperBound(w, work), "м³")
+                    }
+                    if (layers != null && Field.SEAM !in errors) {
+                        layout += ResultRow("Потрібна довжина рукава з рулону", (h + seamM) * layers, "м")
+                        layout += ResultRow("Довжина верхнього зварного шва", w, "м")
+                    }
+                }
+                assumptions += "Площа плівки враховує всю висоту конверта, включно з частиною під збір."
+                assumptions += "Об'єм — верхня оцінка як для циліндра того ж периметра над збором; плоский зварений верх і зібраний низ зменшують реальний об'єм."
+                assumptions += "Перевіреної моделі об'єму для конверта, зібраного знизу, немає; значення об'єму не використовуйте як точні."
             }
             ShapeType.PEAR -> Unit
         }

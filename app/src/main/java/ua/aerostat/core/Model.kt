@@ -4,6 +4,11 @@ import kotlinx.serialization.Serializable
 
 /** Тип оболонки. */
 enum class ShapeType(val title: String, val description: String, val status: ModelStatus) {
+    GATHERED(
+        "Конверт, зібраний знизу",
+        "Прямокутний рукав (конверт): зверху заварений, знизу зібраний у горловину. Площа й маса — точно, об'єм — лише верхня оцінка.",
+        ModelStatus.APPROXIMATE,
+    ),
     SPHERE(
         "Сферична оболонка",
         "Куля з клинів (гор). Ідеальна сфера: площа, об'єм, розкрій клинів.",
@@ -73,6 +78,9 @@ data class ProjectInput(
     val sleeveFlatWidth: String = "1,5",
     val sleeveLength: String = "8",
     val goreCount: String = "",
+    val envelopeWidth: String = "6",
+    val envelopeHeight: String = "10",
+    val gatherPart: String = "1,1",
     val appendixDiameter: String = "0,3",
     val appendixLength: String = "1",
     // Матеріал
@@ -105,6 +113,9 @@ enum class Field(val label: String, val unit: String) {
     CYLINDER_LENGTH("Довжина циліндра", "м"),
     SLEEVE_FLAT_WIDTH("Ширина рукава у складеному вигляді", "м"),
     SLEEVE_LENGTH("Довжина рукава", "м"),
+    ENVELOPE_WIDTH("Ширина конверта у складеному вигляді", "м"),
+    ENVELOPE_HEIGHT("Висота конверта", "м"),
+    GATHER_PART("Частина під збір знизу", "м"),
     GORE_COUNT("Кількість клинів", "шт."),
     APPENDIX_DIAMETER("Діаметр рукава-апендикса", "м"),
     APPENDIX_LENGTH("Довжина рукава-апендикса", "м"),

@@ -46,7 +46,7 @@ fun WizardScreen(
     onCreate: (String, ShapeType, EnvelopeVariant) -> Unit,
     onBack: () -> Unit,
 ) {
-    var shape by rememberSaveable { mutableStateOf(ShapeType.SPHERE) }
+    var shape by rememberSaveable { mutableStateOf(ShapeType.GATHERED) }
     var variant by rememberSaveable { mutableStateOf(EnvelopeVariant.CLOSED) }
     var name by rememberSaveable { mutableStateOf(defaultName) }
 

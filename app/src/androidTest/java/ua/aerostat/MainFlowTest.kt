@@ -84,6 +84,20 @@ class MainFlowTest {
     }
 
     @Test
+    fun gatheredEnvelopeComputesFilmMass() {
+        createProject("shape_GATHERED", "Конверт тест")
+        rule.onNodeWithTag("field_ENVELOPE_WIDTH").performScrollTo().performTextReplacement("6")
+        rule.onNodeWithTag("field_ENVELOPE_HEIGHT").performScrollTo().performTextReplacement("10")
+        rule.onNodeWithTag("field_GATHER_PART").performScrollTo().performTextReplacement("1,1")
+        rule.onNodeWithTag("field_THICKNESS").performScrollTo().performTextReplacement("30")
+        rule.onNodeWithTag("field_WASTE").performScrollTo().performTextReplacement("10")
+        rule.onNodeWithTag("open_results").performScrollTo().performClick()
+        waitTag("film_mass")
+        // 2 × 6 × 10 × 1,1 × 30·10⁻⁶ × 920 = 3,643 кг
+        rule.onNodeWithTag("film_mass").assertTextEquals("3,643 кг")
+    }
+
+    @Test
     fun pearShowsUnavailable() {
         createProject("shape_PEAR", "Груша тест")
         waitTag("unavailable")
