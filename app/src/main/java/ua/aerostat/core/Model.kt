@@ -144,4 +144,8 @@ enum class Field(val label: String, val unit: String) {
     CYLINDER_VOLUME("Об'єм балона", "л"),
     CYLINDER_PRESSURE("Тиск у балоні", "атм"),
     CYLINDER_RESIDUAL("Залишковий тиск у балоні", "атм"),
+    TARGET_PAYLOAD("Потрібний корисний вантаж", "кг"),
+    FLIGHT_HOURS("Тривалість польоту", "год"),
+    LIFT_LOSS_RATE("Втрата підйому за добу", "%"),
+    ASPECT_RATIO("Довжина відносно діаметра", "раз"),
 }

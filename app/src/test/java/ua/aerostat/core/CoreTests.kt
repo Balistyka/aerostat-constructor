@@ -261,9 +261,11 @@ class CalculatorTest {
     }
 
     @Test fun withValueRoundTrip() {
+        // Поля зворотного підбору не зберігаються у проєкті, тому їх пропускаємо.
+        val stored = Field.entries - setOf(Field.TARGET_PAYLOAD, Field.FLIGHT_HOURS, Field.LIFT_LOSS_RATE, Field.ASPECT_RATIO)
         var input = ProjectInput()
-        Field.entries.forEach { f -> input = Calculator.withValue(input, f, "${f.ordinal},5") }
-        Field.entries.forEach { f -> assertEquals("${f.ordinal},5", Calculator.rawValue(input, f)) }
+        stored.forEach { f -> input = Calculator.withValue(input, f, "${f.ordinal},5") }
+        stored.forEach { f -> assertEquals("${f.ordinal},5", Calculator.rawValue(input, f)) }
     }
 }
 
@@ -429,5 +431,147 @@ class CalculatorLiftTest {
         val r = Calculator.calculate(envelope.copy(groundTemp = "-20"))
         assertFalse(r.hasErrors)
         assertNotNull(r.lift)
+    }
+}
+
+class InverseTest {
+    private val base = ProjectInput(
+        shape = ShapeType.GATHERED, gas = GasType.HYDROGEN,
+        envelopeWidth = "6", gatherPart = "1,1",
+        thicknessUm = "30", density = "920", layers = "1", wastePercent = "10",
+        fittingsKg = "0,5", fillFactor = "72", targetAltitude = "10",
+        ballastPercent = "12", groundTemp = "15", groundPressure = "1013",
+    )
+    private val input = InverseInput(base = base, targetPayload = "20", lossRatePerDay = "0")
+
+    private fun solved(i: InverseInput) = Inverse.solve(i).solution ?: error("Немає розв'язку")
+
+    /** Головна перевірка: підібрана оболонка справді дає заданий вантаж. */
+    private fun assertRoundTrip(i: InverseInput, target: Double) {
+        val s = solved(i)
+        val forward = Calculator.calculate(s.project)
+        val lift = forward.lift!!
+        val ballast = lift.grossLiftTarget * (Numbers.parse(s.project.ballastPercent) as ParsedNumber.Value).value / 100.0
+        val payload = lift.grossLiftTarget - ballast - s.durationReserve - forward.totalMass!!
+        assertTrue("Вантаж $payload менший за заданий $target", payload >= target - 0.02)
+        assertTrue("Вантаж $payload значно більший за заданий $target", payload <= target + 1.5)
+        assertEquals(payload, s.payload, 1e-6)
+    }
+
+    @Test fun gatheredRoundTrip() = assertRoundTrip(input, 20.0)
+
+    @Test fun sleeveRoundTrip() = assertRoundTrip(
+        input.copy(base = base.copy(shape = ShapeType.SLEEVE, sleeveFlatWidth = "6")), 20.0,
+    )
+
+    @Test fun sphereRoundTrip() = assertRoundTrip(
+        input.copy(base = base.copy(shape = ShapeType.SPHERE, fillFactor = "100")), 20.0,
+    )
+
+    @Test fun cylinderRoundTrip() = assertRoundTrip(
+        input.copy(base = base.copy(shape = ShapeType.CYLINDER, fillFactor = "100"), aspectRatio = "3"), 20.0,
+    )
+
+    @Test fun smallPayloadRoundTrip() = assertRoundTrip(input.copy(targetPayload = "1,5"), 1.5)
+
+    @Test fun gatheredHeightMatchesPractice() {
+        // Конверт 6 м під 20 кг на 10 км має вийти близьким до 10 м висоти
+        val s = solved(input)
+        assertEquals("Висота конверта", s.mainDimensionLabel)
+        assertTrue("Висота ${s.mainDimension} поза очікуваним діапазоном", s.mainDimension in 8.0..14.0)
+        assertEquals(6.0, s.secondDimension!!, 1e-9)
+    }
+
+    @Test fun narrowSleeveIsImpossible() {
+        val r = Inverse.solve(input.copy(base = base.copy(envelopeWidth = "0,5")))
+        assertEquals(InverseFailure.TOO_HEAVY_FILM, r.failure)
+        assertNull(r.solution)
+        assertNotNull(r.minimumWidth)
+        assertTrue(r.failureText!!.contains("Потрібна ширина понад"))
+    }
+
+    @Test fun widthAboveMinimumWorks() {
+        val min = Inverse.solve(input.copy(base = base.copy(envelopeWidth = "0,5"))).minimumWidth!!
+        // Трохи ширше за мінімум висота ще завелика, а із запасом розв'язок уже є
+        assertNotNull(Inverse.solve(input.copy(base = base.copy(envelopeWidth = Numbers.toInput(min * 6)))).solution)
+        assertEquals(
+            InverseFailure.OUT_OF_RANGE,
+            Inverse.solve(input.copy(base = base.copy(envelopeWidth = Numbers.toInput(min * 1.5)))).failure,
+        )
+    }
+
+    @Test fun ballastAndReserveCannotExceedLift() {
+        val r = Inverse.solve(input.copy(base = base.copy(ballastPercent = "50"), flightHours = "48", lossRatePerDay = "30"))
+        assertEquals(InverseFailure.RESERVE_TOO_BIG, r.failure)
+    }
+
+    @Test fun durationWithoutLossRateChangesNothing() {
+        val withTime = Inverse.solve(input.copy(flightHours = "24"))
+        assertEquals(solved(input).mainDimension, withTime.solution!!.mainDimension, 1e-9)
+        assertTrue(withTime.notes.any { it.contains("не впливає") })
+    }
+
+    @Test fun longerFlightNeedsBiggerEnvelope() {
+        val short = solved(input.copy(flightHours = "6", lossRatePerDay = "6"))
+        val long = solved(input.copy(flightHours = "48", lossRatePerDay = "6"))
+        assertTrue(long.mainDimension > short.mainDimension)
+        assertTrue(long.durationReserve > short.durationReserve)
+    }
+
+    @Test fun higherAltitudeNeedsBiggerEnvelope() {
+        val low = solved(input.copy(base = base.copy(targetAltitude = "3")))
+        val high = solved(input.copy(base = base.copy(targetAltitude = "15")))
+        assertTrue(high.mainDimension > low.mainDimension)
+    }
+
+    @Test fun heliumNeedsBiggerEnvelopeThanHydrogen() {
+        val h2 = solved(input)
+        val he = solved(input.copy(base = base.copy(gas = GasType.HELIUM)))
+        assertTrue(he.mainDimension > h2.mainDimension)
+    }
+
+    @Test fun heavierPayloadNeedsBiggerEnvelope() {
+        assertTrue(solved(input.copy(targetPayload = "40")).mainDimension > solved(input).mainDimension)
+    }
+
+    @Test fun thinnerFilmNeedsSmallerEnvelope() {
+        val thin = solved(input.copy(base = base.copy(thicknessUm = "15")))
+        assertTrue(thin.mainDimension < solved(input).mainDimension)
+    }
+
+    @Test fun pearHasNoModel() {
+        val r = Inverse.solve(input.copy(base = base.copy(shape = ShapeType.PEAR)))
+        assertEquals(InverseFailure.NO_MODEL, r.failure)
+    }
+
+    @Test fun hugePayloadIsOutOfRange() {
+        val r = Inverse.solve(input.copy(base = base.copy(shape = ShapeType.SPHERE, targetAltitude = "20"), targetPayload = "5000"))
+        assertEquals(InverseFailure.OUT_OF_RANGE, r.failure)
+        assertNull(r.solution)
+    }
+
+    @Test fun invalidInputIsReported() {
+        val r = Inverse.solve(input.copy(targetPayload = "-5"))
+        assertTrue(r.hasErrors)
+        assertNotNull(r.errors[Field.TARGET_PAYLOAD])
+        assertNull(r.solution)
+    }
+
+    @Test fun producedProjectKeepsShapeAndGas() {
+        val s = solved(input.copy(base = base.copy(gas = GasType.HELIUM)))
+        assertEquals(ShapeType.GATHERED, s.project.shape)
+        assertEquals(GasType.HELIUM, s.project.gas)
+        assertEquals("1,1", s.project.gatherPart)
+    }
+
+    @Test fun cylinderLengthFollowsAspectRatio() {
+        val s = solved(input.copy(base = base.copy(shape = ShapeType.CYLINDER, fillFactor = "100"), aspectRatio = "4"))
+        assertEquals(s.mainDimension * 4, s.secondDimension!!, 0.02)
+    }
+
+    @Test fun everyInverseFieldHasHelp() {
+        Inverse.fields(input).forEach { HelpTopics.forField(it) }
+        listOf(Field.TARGET_PAYLOAD, Field.FLIGHT_HOURS, Field.LIFT_LOSS_RATE, Field.ASPECT_RATIO)
+            .forEach { assertNotNull(HelpTopics.forField(it)) }
     }
 }

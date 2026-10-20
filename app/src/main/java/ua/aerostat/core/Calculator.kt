@@ -132,6 +132,8 @@ object Calculator {
         Field.CYLINDER_VOLUME -> input.cylinderVolume
         Field.CYLINDER_PRESSURE -> input.cylinderPressure
         Field.CYLINDER_RESIDUAL -> input.cylinderResidual
+        // Поля лише для зворотного підбору — у проєкті не зберігаються.
+        Field.TARGET_PAYLOAD, Field.FLIGHT_HOURS, Field.LIFT_LOSS_RATE, Field.ASPECT_RATIO -> ""
     }
 
     fun withValue(input: ProjectInput, field: Field, value: String): ProjectInput = when (field) {
@@ -160,6 +162,7 @@ object Calculator {
         Field.CYLINDER_VOLUME -> input.copy(cylinderVolume = value)
         Field.CYLINDER_PRESSURE -> input.copy(cylinderPressure = value)
         Field.CYLINDER_RESIDUAL -> input.copy(cylinderResidual = value)
+        Field.TARGET_PAYLOAD, Field.FLIGHT_HOURS, Field.LIFT_LOSS_RATE, Field.ASPECT_RATIO -> input
     }
 
     fun calculate(input: ProjectInput): CalcResult {

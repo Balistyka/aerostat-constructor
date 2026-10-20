@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ua.aerostat.core.EnvelopeVariant
+import ua.aerostat.core.InverseInput
 import ua.aerostat.core.Project
 import ua.aerostat.core.ProjectInput
 import ua.aerostat.core.ShapeType
@@ -33,6 +34,10 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         private set
 
     private val pendingSave = MutableStateFlow<List<Project>?>(null)
+
+    /** Стан екрана зворотного підбору. */
+    var inverse by mutableStateOf(InverseInput())
+        private set
 
     val themeMode: StateFlow<ThemeMode> =
         store.themeMode.stateIn(viewModelScope, SharingStarted.Eagerly, ThemeMode.DARK)
@@ -86,6 +91,19 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         val copy = src.copy(id = UUID.randomUUID().toString(), name = "${src.name} (копія)", createdAt = now, updatedAt = now)
         mutate { listOf(copy) + it }
         return copy.id
+    }
+
+    fun updateInverse(transform: (InverseInput) -> InverseInput) {
+        inverse = transform(inverse)
+    }
+
+    /** Створює проєкт із розмірів, підібраних зворотним розрахунком. */
+    fun createFromInput(input: ProjectInput): String {
+        val now = System.currentTimeMillis()
+        val id = UUID.randomUUID().toString()
+        val p = Project(id = id, name = "Підбір: ${nextDefaultName().lowercase()}", createdAt = now, updatedAt = now, input = input)
+        mutate { listOf(p) + it }
+        return id
     }
 
     fun setThemeMode(mode: ThemeMode) {

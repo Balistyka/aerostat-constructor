@@ -116,6 +116,34 @@ class MainFlowTest {
     }
 
     @Test
+    fun inversePicksEnvelopeAndCreatesProject() {
+        waitTag("open_inverse")
+        rule.onNodeWithTag("open_inverse").performScrollTo().performClick()
+        waitTag("inverse_result")
+        rule.onNodeWithTag("inv_TARGET_PAYLOAD").performScrollTo().performTextReplacement("20")
+        rule.onNodeWithTag("inv_TARGET_ALTITUDE").performScrollTo().performTextReplacement("10")
+        Espresso.closeSoftKeyboard()
+        rule.waitForIdle()
+        rule.onNodeWithTag("inverse_dimension").performScrollTo().assertTextContains("м", substring = true)
+        rule.onNodeWithTag("inverse_create").performScrollTo().performClick()
+        // Відкривається звичайний проєкт із підібраними розмірами
+        waitTag("project_name")
+        rule.onNodeWithTag("field_ENVELOPE_HEIGHT").performScrollTo().assertIsDisplayed()
+    }
+
+    @Test
+    fun inverseReportsImpossibleNarrowSleeve() {
+        waitTag("open_inverse")
+        rule.onNodeWithTag("open_inverse").performScrollTo().performClick()
+        waitTag("inverse_result")
+        rule.onNodeWithTag("inv_ENVELOPE_WIDTH").performScrollTo().performTextReplacement("0,5")
+        Espresso.closeSoftKeyboard()
+        rule.waitForIdle()
+        rule.onNodeWithTag("inverse_failure").performScrollTo()
+            .assertTextContains("Потрібна ширина понад", substring = true)
+    }
+
+    @Test
     fun pearShowsUnavailable() {
         createProject("shape_PEAR", "Груша тест")
         waitTag("unavailable")

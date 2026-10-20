@@ -30,6 +30,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -75,6 +76,7 @@ fun CenteredColumn(content: @Composable () -> Unit) {
 fun HomeScreen(
     projects: List<Project>?,
     onNewProject: () -> Unit,
+    onInverse: () -> Unit,
     onOpenProject: (String) -> Unit,
     onAllProjects: () -> Unit,
 ) {
@@ -99,6 +101,20 @@ fun HomeScreen(
                         Icon(Icons.Filled.Add, contentDescription = null)
                         Spacer(Modifier.padding(start = 6.dp))
                         Text(Uk.CREATE)
+                    }
+                }
+            }
+
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+                shape = MaterialTheme.shapes.extraLarge,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Column(Modifier.padding(24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text(Uk.INVERSE_CARD, style = MaterialTheme.typography.titleLarge)
+                    Text(Uk.INVERSE_CARD_TEXT, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    OutlinedButton(onClick = onInverse, modifier = Modifier.testTag("open_inverse")) {
+                        Text(Uk.INVERSE_OPEN)
                     }
                 }
             }

@@ -35,6 +35,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ua.aerostat.ui.screens.EditorScreen
 import ua.aerostat.ui.screens.HomeScreen
+import ua.aerostat.ui.screens.InverseScreen
 import ua.aerostat.ui.screens.Loading
 import ua.aerostat.ui.screens.ProjectsScreen
 import ua.aerostat.ui.screens.ReferenceScreen
@@ -52,6 +53,7 @@ private enum class TopDest(val route: String, val label: String, val icon: Image
 }
 
 private const val WIZARD = "wizard"
+private const val INVERSE = "inverse"
 private const val EDITOR = "editor/{id}"
 private const val RESULTS = "results/{id}"
 
@@ -125,6 +127,7 @@ private fun AppNavHost(nav: NavHostController, vm: AppViewModel, themeMode: Them
             HomeScreen(
                 projects = projects,
                 onNewProject = { nav.navigate(WIZARD) },
+                onInverse = { nav.navigate(INVERSE) },
                 onOpenProject = { nav.navigate("editor/$it") },
                 onAllProjects = {
                     nav.navigate(TopDest.PROJECTS.route) {
@@ -145,6 +148,17 @@ private fun AppNavHost(nav: NavHostController, vm: AppViewModel, themeMode: Them
         }
         composable(TopDest.REFERENCE.route) { ReferenceScreen() }
         composable(TopDest.SETTINGS.route) { SettingsScreen(themeMode, vm::setThemeMode) }
+        composable(INVERSE) {
+            InverseScreen(
+                input = vm.inverse,
+                onChange = vm::updateInverse,
+                onCreateProject = { pi ->
+                    val id = vm.createFromInput(pi)
+                    nav.navigate("editor/$id") { popUpTo(INVERSE) { inclusive = true } }
+                },
+                onBack = { nav.popBackStack() },
+            )
+        }
         composable(WIZARD) {
             if (projects == null) Loading() else WizardScreen(
                 defaultName = vm.nextDefaultName(),

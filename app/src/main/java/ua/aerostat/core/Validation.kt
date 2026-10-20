@@ -42,6 +42,10 @@ object Validation {
         Field.CYLINDER_VOLUME to FieldRule(min = 1.0, max = 500.0),
         Field.CYLINDER_PRESSURE to FieldRule(min = 1.0, max = 400.0),
         Field.CYLINDER_RESIDUAL to FieldRule(min = 0.0, max = 100.0, allowZero = true),
+        Field.TARGET_PAYLOAD to FieldRule(min = 0.01, max = 5000.0),
+        Field.FLIGHT_HOURS to FieldRule(min = 0.0, max = 720.0, allowZero = true, optional = true),
+        Field.LIFT_LOSS_RATE to FieldRule(min = 0.0, max = 50.0, allowZero = true),
+        Field.ASPECT_RATIO to FieldRule(min = 0.2, max = 20.0),
     )
 
     fun check(field: Field, raw: String): FieldCheck = check(raw, rules.getValue(field), field.unit)

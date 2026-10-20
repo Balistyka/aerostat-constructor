@@ -9,6 +9,8 @@ import ua.aerostat.core.FilmMaterial
 import ua.aerostat.core.GasType
 import ua.aerostat.core.HelpCategory
 import ua.aerostat.core.HelpTopics
+import ua.aerostat.core.Inverse
+import ua.aerostat.core.InverseInput
 import ua.aerostat.core.Lift
 import ua.aerostat.core.ModelStatus
 import ua.aerostat.core.Project
@@ -78,6 +80,24 @@ class UkrainianStringsTest {
     @Test
     fun liftAssumptionsAreUkrainian() {
         Lift.assumptions.forEach { check("lift", it) }
+        Inverse.assumptions.forEach { check("inverse", it) }
+    }
+
+    @Test
+    fun inverseMessagesAreUkrainian() {
+        val base = ProjectInput(shape = ShapeType.GATHERED, envelopeWidth = "0,5")
+        listOf(
+            InverseInput(base = base),
+            InverseInput(base = base.copy(envelopeWidth = "6"), flightHours = "24"),
+            InverseInput(base = base.copy(shape = ShapeType.PEAR)),
+            InverseInput(base = base.copy(shape = ShapeType.SPHERE, targetAltitude = "20"), targetPayload = "5000"),
+            InverseInput(base = base.copy(ballastPercent = "50"), flightHours = "48", lossRatePerDay = "30"),
+        ).forEach { i ->
+            val r = Inverse.solve(i)
+            r.failureText?.let { check("failure", it) }
+            r.notes.forEach { check("note", it) }
+            r.errors.values.forEach { check("error", it) }
+        }
     }
 
     @Test
