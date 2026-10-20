@@ -98,6 +98,20 @@ class MainFlowTest {
     }
 
     @Test
+    fun liftAndPayloadAreComputed() {
+        createProject("shape_GATHERED", "Підйом тест")
+        rule.onNodeWithTag("field_ENVELOPE_WIDTH").performScrollTo().performTextReplacement("6")
+        rule.onNodeWithTag("field_ENVELOPE_HEIGHT").performScrollTo().performTextReplacement("10")
+        rule.onNodeWithTag("field_GATHER_PART").performScrollTo().performTextReplacement("1,1")
+        rule.onNodeWithTag("field_FILL_FACTOR").performScrollTo().performTextReplacement("72")
+        rule.onNodeWithTag("field_TARGET_ALTITUDE").performScrollTo().performTextReplacement("10")
+        rule.onNodeWithTag("open_results").performScrollTo().performClick()
+        waitTag("lift_card")
+        rule.onNodeWithTag("payload").assertTextContains("кг", substring = true)
+        rule.onNodeWithText("Потрібно балонів").performScrollTo().assertIsDisplayed()
+    }
+
+    @Test
     fun pearShowsUnavailable() {
         createProject("shape_PEAR", "Груша тест")
         waitTag("unavailable")

@@ -38,6 +38,8 @@ data class CalcResult(
     val density: Double?,
     val assumptions: List<String>,
     val unavailableReason: String?,
+    val geometricVolume: Double? = null,
+    val lift: LiftResult? = null,
 ) {
     val hasErrors get() = errors.isNotEmpty()
 }
@@ -94,8 +96,15 @@ object Calculator {
         val appendix = if (input.variant == EnvelopeVariant.OPEN_APPENDIX && input.shape != ShapeType.PEAR)
             listOf(Field.APPENDIX_DIAMETER, Field.APPENDIX_LENGTH) else emptyList()
         val material = listOf(Field.DENSITY, Field.THICKNESS, Field.LAYERS, Field.WASTE, Field.FITTINGS)
-        return geometry + appendix + material
+        return geometry + appendix + material + gasFields(input)
     }
+
+    /** Поля блоку «Газ і підйом». Для форм без моделі об'єму блок не показується. */
+    fun gasFields(input: ProjectInput): List<Field> =
+        if (input.shape == ShapeType.PEAR) emptyList() else listOf(
+            Field.FILL_FACTOR, Field.GROUND_TEMP, Field.GROUND_PRESSURE, Field.TARGET_ALTITUDE,
+            Field.BALLAST_PERCENT, Field.CYLINDER_VOLUME, Field.CYLINDER_PRESSURE, Field.CYLINDER_RESIDUAL,
+        )
 
     fun rawValue(input: ProjectInput, field: Field): String = when (field) {
         Field.DIAMETER -> input.diameter
@@ -115,6 +124,14 @@ object Calculator {
         Field.SEAM -> input.seamCm
         Field.ROLL_WIDTH -> input.rollWidth
         Field.FITTINGS -> input.fittingsKg
+        Field.FILL_FACTOR -> input.fillFactor
+        Field.GROUND_TEMP -> input.groundTemp
+        Field.GROUND_PRESSURE -> input.groundPressure
+        Field.TARGET_ALTITUDE -> input.targetAltitude
+        Field.BALLAST_PERCENT -> input.ballastPercent
+        Field.CYLINDER_VOLUME -> input.cylinderVolume
+        Field.CYLINDER_PRESSURE -> input.cylinderPressure
+        Field.CYLINDER_RESIDUAL -> input.cylinderResidual
     }
 
     fun withValue(input: ProjectInput, field: Field, value: String): ProjectInput = when (field) {
@@ -135,6 +152,14 @@ object Calculator {
         Field.SEAM -> input.copy(seamCm = value)
         Field.ROLL_WIDTH -> input.copy(rollWidth = value)
         Field.FITTINGS -> input.copy(fittingsKg = value)
+        Field.FILL_FACTOR -> input.copy(fillFactor = value)
+        Field.GROUND_TEMP -> input.copy(groundTemp = value)
+        Field.GROUND_PRESSURE -> input.copy(groundPressure = value)
+        Field.TARGET_ALTITUDE -> input.copy(targetAltitude = value)
+        Field.BALLAST_PERCENT -> input.copy(ballastPercent = value)
+        Field.CYLINDER_VOLUME -> input.copy(cylinderVolume = value)
+        Field.CYLINDER_PRESSURE -> input.copy(cylinderPressure = value)
+        Field.CYLINDER_RESIDUAL -> input.copy(cylinderResidual = value)
     }
 
     fun calculate(input: ProjectInput): CalcResult {
@@ -170,6 +195,7 @@ object Calculator {
             errors[Field.ROLL_WIDTH] = "Ширина рулону має бути більшою за два припуски на шов"
         }
 
+        var volume: Double? = null
         val geometry = mutableListOf<ResultRow>()
         val layout = mutableListOf<ResultRow>()
         var gores: GoreTable? = null
@@ -186,7 +212,9 @@ object Calculator {
                     geometry += ResultRow("Висота", d, "м")
                     geometry += ResultRow("Довжина екватора", PI * d, "м")
                     geometry += ResultRow("Площа поверхні сфери", area, "м²")
-                    geometry += ResultRow("Об'єм ідеальної сфери", Geometry.sphereVolume(d), "м³")
+                    val vol = Geometry.sphereVolume(d)
+                    volume = vol
+                    geometry += ResultRow("Об'єм ідеальної сфери", vol, "м³")
                     if (rollWidth != null && Field.ROLL_WIDTH !in errors && Field.SEAM !in errors) {
                         val usable = rollWidth - 2 * seamM
                         val minN = Geometry.minGoreCount(d, usable)
@@ -226,7 +254,9 @@ object Calculator {
                     geometry += ResultRow("Площа бічної поверхні", lateral, "м²")
                     geometry += ResultRow("Площа двох днищ", ends, "м²")
                     geometry += ResultRow("Загальна площа деталей", lateral + ends, "м²")
-                    geometry += ResultRow("Об'єм ідеального циліндра", Geometry.cylinderVolume(d, l), "м³")
+                    val vol = Geometry.cylinderVolume(d, l)
+                    volume = vol
+                    geometry += ResultRow("Об'єм ідеального циліндра", vol, "м³")
                     if (rollWidth != null && Field.ROLL_WIDTH !in errors && Field.SEAM !in errors && layers != null) {
                         val usable = rollWidth - 2 * seamM
                         val strips = ceil(PI * d / usable - 1e-9).toInt()
@@ -253,7 +283,9 @@ object Calculator {
                     geometry += ResultRow("Еквівалентний діаметр", Geometry.sleeveEquivalentDiameter(w), "м")
                     geometry += ResultRow("Довжина", l, "м")
                     geometry += ResultRow("Площа стінок (2 × ширина × довжина)", area, "м²")
-                    geometry += ResultRow("Об'єм, верхня оцінка", Geometry.sleeveVolumeUpperBound(w, l), "м³")
+                    val vol = Geometry.sleeveVolumeUpperBound(w, l)
+                    volume = vol
+                    geometry += ResultRow("Об'єм, верхня оцінка", vol, "м³")
                     if (layers != null && Field.SEAM !in errors) {
                         layout += ResultRow("Потрібна довжина рукава з рулону", (l + 2 * seamM) * layers, "м")
                     }
@@ -280,7 +312,9 @@ object Calculator {
                         val work = h - g
                         geometry += ResultRow("Частина під збір знизу", g, "м")
                         geometry += ResultRow("Робоча висота (над збором)", work, "м")
-                        geometry += ResultRow("Об'єм, верхня оцінка", Geometry.sleeveVolumeUpperBound(w, work), "м³")
+                        val vol = Geometry.sleeveVolumeUpperBound(w, work)
+                    volume = vol
+                        geometry += ResultRow("Об'єм, верхня оцінка", vol, "м³")
                     }
                     if (layers != null && Field.SEAM !in errors) {
                         layout += ResultRow("Потрібна довжина рукава з рулону", (h + seamM) * layers, "м")
@@ -316,12 +350,36 @@ object Calculator {
             FilmMass.mass(blankArea, thickness, density) else null
         val total = if (filmMass != null && fittings != null) filmMass + fittings else null
 
+        val fillFactor = v[Field.FILL_FACTOR]
+        val vol0 = volume
+        val workingVolume = if (vol0 != null && fillFactor != null) vol0 * fillFactor / 100.0 else null
+        val lift = if (workingVolume != null &&
+            gasFields(input).none { it in errors } &&
+            v[Field.GROUND_TEMP] != null && v[Field.GROUND_PRESSURE] != null &&
+            v[Field.TARGET_ALTITUDE] != null && v[Field.BALLAST_PERCENT] != null
+        ) {
+            Lift.calculate(
+                gas = input.gas,
+                envelopeVolume = workingVolume,
+                groundTempC = v.getValue(Field.GROUND_TEMP)!!,
+                groundPressureHPa = v.getValue(Field.GROUND_PRESSURE)!!,
+                targetAltitudeM = v.getValue(Field.TARGET_ALTITUDE)!! * 1000.0,
+                ballastPercent = v.getValue(Field.BALLAST_PERCENT)!!,
+                envelopeMass = total,
+                cylinderVolumeL = v[Field.CYLINDER_VOLUME],
+                cylinderPressureAtm = v[Field.CYLINDER_PRESSURE],
+                cylinderResidualAtm = v[Field.CYLINDER_RESIDUAL],
+            )
+        } else null
+        if (lift != null) assumptions += Lift.assumptions
+
         return CalcResult(
             shape = input.shape, variant = input.variant, status = input.shape.status,
             relevantFields = fields, errors = errors, geometry = geometry, layout = layout, gores = gores,
             envelopeArea = envelopeArea, appendixArea = appendixArea, blankArea = blankArea,
             filmMass = filmMass, fittingsMass = fittings, totalMass = total, density = density,
             assumptions = assumptions, unavailableReason = null,
+            geometricVolume = workingVolume, lift = lift,
         )
     }
 }

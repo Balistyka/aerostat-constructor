@@ -6,8 +6,10 @@ import ua.aerostat.core.Calculator
 import ua.aerostat.core.EnvelopeVariant
 import ua.aerostat.core.Field
 import ua.aerostat.core.FilmMaterial
+import ua.aerostat.core.GasType
 import ua.aerostat.core.HelpCategory
 import ua.aerostat.core.HelpTopics
+import ua.aerostat.core.Lift
 import ua.aerostat.core.ModelStatus
 import ua.aerostat.core.Project
 import ua.aerostat.core.ProjectInput
@@ -49,6 +51,7 @@ class UkrainianStringsTest {
         ModelStatus.entries.forEach { check(it.name, it.title); check(it.name, it.explanation) }
         EnvelopeVariant.entries.forEach { check(it.name, it.title); check(it.name, it.description) }
         FilmMaterial.entries.forEach { check(it.name, it.title) }
+        GasType.entries.forEach { check(it.name, it.title) }
         Field.entries.forEach { check(it.name, it.label); check(it.name, it.unit, requireCyrillic = false) }
         HelpCategory.entries.forEach { check(it.name, it.title) }
         ThemeMode.entries.forEach { check(it.name, it.title) }
@@ -70,6 +73,11 @@ class UkrainianStringsTest {
         listOf("", "abc", "-1", "0", "1,5", "1e9", "99999999").forEach { raw ->
             Field.entries.forEach { f -> Validation.check(f, raw).error?.let { check("${f.name}[$raw]", it) } }
         }
+    }
+
+    @Test
+    fun liftAssumptionsAreUkrainian() {
+        Lift.assumptions.forEach { check("lift", it) }
     }
 
     @Test

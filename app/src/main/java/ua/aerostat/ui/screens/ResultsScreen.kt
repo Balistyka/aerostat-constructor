@@ -134,16 +134,20 @@ fun ResultsScreen(project: Project?, onBack: () -> Unit) {
                         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(16.dp)) {
                                 MassCard(result, ::copy) { help = it }
+                                LiftCard(result, ::copy) { help = it }
                                 LayoutCard(result, ::copy)
                             }
                             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(16.dp)) {
                                 GeometryCard(result, ::copy)
+                                GasStateCard(result, ::copy)
                                 GoresCard(result)
                             }
                         }
                     } else {
                         MassCard(result, ::copy) { help = it }
+                        LiftCard(result, ::copy) { help = it }
                         GeometryCard(result, ::copy)
+                        GasStateCard(result, ::copy)
                         LayoutCard(result, ::copy)
                         GoresCard(result)
                     }
@@ -196,6 +200,58 @@ private fun MassCard(result: CalcResult, copy: (String, String) -> Unit, onHelp:
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
+    }
+}
+
+@Composable
+private fun LiftCard(result: CalcResult, copy: (String, String) -> Unit, onHelp: (HelpTopic) -> Unit) {
+    val l = result.lift ?: return
+    SectionCard(
+        title = Uk.RESULT_LIFT,
+        onHelp = { onHelp(HelpTopics.general.first { it.id == "payload" }) },
+        modifier = Modifier.testTag("lift_card"),
+    ) {
+        val payload = l.payload
+        if (payload != null) {
+            Text(Uk.LIFT_PAYLOAD, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                "${Numbers.format(payload)} кг",
+                style = NumberStyle.copy(fontSize = MaterialTheme.typography.displaySmall.fontSize),
+                color = if (payload > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
+                modifier = Modifier.testTag("payload"),
+            )
+            if (payload <= 0) {
+                Text(Uk.LIFT_NEGATIVE, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error)
+            }
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+        }
+        val rows = buildList {
+            add(Uk.LIFT_WORKING_VOLUME to "${Numbers.format(l.envelopeVolume)} м³")
+            add(Uk.LIFT_TARGET to "${Numbers.format(l.grossLiftTarget)} кг")
+            add(Uk.LIFT_GROUND to "${Numbers.format(l.grossLiftGround)} кг")
+            add(Uk.LIFT_FILL_GROUND to "${Numbers.format(l.fillVolumeGround)} м³")
+            l.envelopeMass?.let { add(Uk.LIFT_ENVELOPE_MASS to "${Numbers.format(it, 3)} кг") }
+            l.ballastMass?.let { add(Uk.LIFT_BALLAST to "${Numbers.format(it)} кг") }
+            l.cylinderOutput?.let { add(Uk.LIFT_CYL_OUTPUT to "${Numbers.format(it)} м³") }
+            l.cylinderCount?.let { add(Uk.LIFT_CYL_COUNT to Numbers.format(it)) }
+        }
+        rows.forEach { (k, v) -> ValueRow(k, v, { copy(k, v) }) }
+    }
+}
+
+@Composable
+private fun GasStateCard(result: CalcResult, copy: (String, String) -> Unit) {
+    val l = result.lift ?: return
+    SectionCard(title = "${Uk.RESULT_GAS_STATE} · ${l.gas.title}") {
+        val rows = listOf(
+            Uk.LIFT_AIR_GROUND to "${Numbers.format(l.ground.density, 3)} кг/м³",
+            Uk.LIFT_GAS_GROUND to "${Numbers.format(l.gasDensityGround, 4)} кг/м³",
+            Uk.LIFT_TEMP_TARGET to "${Numbers.format(l.target.temperatureK - 273.15, 1)} °C",
+            Uk.LIFT_PRESSURE_TARGET to "${Numbers.format(l.target.pressurePa / 100.0, 0)} гПа",
+            Uk.LIFT_AIR_TARGET to "${Numbers.format(l.target.density, 3)} кг/м³",
+            Uk.LIFT_GAS_TARGET to "${Numbers.format(l.gasDensityTarget, 4)} кг/м³",
+        )
+        rows.forEach { (k, v) -> ValueRow(k, v, { copy(k, v) }) }
     }
 }
 

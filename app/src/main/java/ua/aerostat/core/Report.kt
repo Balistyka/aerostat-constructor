@@ -55,6 +55,25 @@ object Report {
             result.totalMass?.let { massRows += "Маса оболонки разом" to "${Numbers.format(it, 3)} кг" }
             if (massRows.isEmpty()) massRows += "Маса" to "не обчислено — перевірте вихідні параметри"
             list += ReportSection("Площа і маса", rows = massRows)
+            result.lift?.let { l ->
+                val rows = mutableListOf(
+                    "Підйомний газ" to l.gas.title,
+                    "Робочий об'єм оболонки" to "${Numbers.format(l.envelopeVolume)} м³",
+                    "Розрахункова висота" to "${Numbers.format(l.target.altitude / 1000.0)} км",
+                    "Температура на висоті" to "${Numbers.format(l.target.temperatureK - 273.15, 1)} °C",
+                    "Тиск на висоті" to "${Numbers.format(l.target.pressurePa / 100.0, 0)} гПа",
+                    "Густина повітря на висоті" to "${Numbers.format(l.target.density, 3)} кг/м³",
+                    "Густина газу на висоті" to "${Numbers.format(l.gasDensityTarget, 4)} кг/м³",
+                    "Підйомна маса на висоті" to "${Numbers.format(l.grossLiftTarget)} кг",
+                    "Підйомна маса біля землі" to "${Numbers.format(l.grossLiftGround)} кг",
+                    "Газу вдути біля землі" to "${Numbers.format(l.fillVolumeGround)} м³",
+                )
+                l.cylinderOutput?.let { rows += "Вихід з одного балона" to "${Numbers.format(it)} м³" }
+                l.cylinderCount?.let { rows += "Потрібно балонів" to Numbers.format(it) }
+                l.ballastMass?.let { rows += "Баласт" to "${Numbers.format(it)} кг" }
+                l.payload?.let { rows += "Корисний вантаж" to "${Numbers.format(it)} кг" }
+                list += ReportSection("Газ, підйомна маса і вантаж", rows = rows)
+            }
             if (result.layout.isNotEmpty()) {
                 list += ReportSection("Розкрій", rows = result.layout.map { it.label to it.formatted })
             }

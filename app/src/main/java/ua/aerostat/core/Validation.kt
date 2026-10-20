@@ -7,6 +7,7 @@ data class FieldRule(
     val allowZero: Boolean = false,
     val integer: Boolean = false,
     val optional: Boolean = false,
+    val negativeAllowed: Boolean = false,
 )
 
 /** Результат перевірки поля: або значення, або повідомлення українською. */
@@ -33,6 +34,14 @@ object Validation {
         Field.SEAM to FieldRule(min = 0.0, max = 20.0, allowZero = true),
         Field.ROLL_WIDTH to FieldRule(min = 0.1, max = 20.0),
         Field.FITTINGS to FieldRule(min = 0.0, max = 1000.0, allowZero = true),
+        Field.FILL_FACTOR to FieldRule(min = 1.0, max = 100.0),
+        Field.GROUND_TEMP to FieldRule(min = -60.0, max = 60.0, allowZero = true, negativeAllowed = true),
+        Field.GROUND_PRESSURE to FieldRule(min = 800.0, max = 1100.0),
+        Field.TARGET_ALTITUDE to FieldRule(min = 0.0, max = 20.0, allowZero = true),
+        Field.BALLAST_PERCENT to FieldRule(min = 0.0, max = 50.0, allowZero = true),
+        Field.CYLINDER_VOLUME to FieldRule(min = 1.0, max = 500.0),
+        Field.CYLINDER_PRESSURE to FieldRule(min = 1.0, max = 400.0),
+        Field.CYLINDER_RESIDUAL to FieldRule(min = 0.0, max = 100.0, allowZero = true),
     )
 
     fun check(field: Field, raw: String): FieldCheck = check(raw, rules.getValue(field), field.unit)
@@ -46,7 +55,9 @@ object Validation {
             is ParsedNumber.Value -> {
                 val v = p.value
                 when {
-                    v < 0 -> FieldCheck(null, "Значення не може бути від'ємним")
+                    v < 0 && !rule.negativeAllowed -> FieldCheck(null, "Значення не може бути від'ємним")
+                    v < rule.min && rule.negativeAllowed ->
+                        FieldCheck(null, "Занадто мале значення (не менше ${Numbers.format(rule.min, 0)}$u)")
                     v == 0.0 && !rule.allowZero -> FieldCheck(null, "Значення має бути більше нуля")
                     rule.integer && v != Math.floor(v) -> FieldCheck(null, "Потрібне ціле число")
                     v > rule.max -> FieldCheck(null, "Занадто велике значення (не більше ${Numbers.format(rule.max, if (rule.integer) 0 else 2)}$u)")

@@ -92,6 +92,16 @@ data class ProjectInput(
     val seamCm: String = "2",
     val rollWidth: String = "1,5",
     val fittingsKg: String = "0,2",
+    // Газ і підйом
+    val gas: GasType = GasType.HYDROGEN,
+    val fillFactor: String = "100",
+    val groundTemp: String = "15",
+    val groundPressure: String = "1013",
+    val targetAltitude: String = "10",
+    val ballastPercent: String = "12",
+    val cylinderVolume: String = "50",
+    val cylinderPressure: String = "150",
+    val cylinderResidual: String = "3",
     val notes: String = "",
 ) {
     /** Скидає значення до типових для обраного типу, зберігаючи тип і варіант. */
@@ -126,4 +136,12 @@ enum class Field(val label: String, val unit: String) {
     SEAM("Припуск на шов", "см"),
     ROLL_WIDTH("Ширина рулону", "м"),
     FITTINGS("Маса кріплень", "кг"),
+    FILL_FACTOR("Коефіцієнт наповнення", "%"),
+    GROUND_TEMP("Температура біля землі", "°C"),
+    GROUND_PRESSURE("Тиск біля землі", "гПа"),
+    TARGET_ALTITUDE("Розрахункова висота", "км"),
+    BALLAST_PERCENT("Баласт від підйомної маси", "%"),
+    CYLINDER_VOLUME("Об'єм балона", "л"),
+    CYLINDER_PRESSURE("Тиск у балоні", "атм"),
+    CYLINDER_RESIDUAL("Залишковий тиск у балоні", "атм"),
 }

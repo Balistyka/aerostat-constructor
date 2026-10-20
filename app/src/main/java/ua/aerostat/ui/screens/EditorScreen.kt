@@ -42,6 +42,7 @@ import ua.aerostat.core.Calculator
 import ua.aerostat.core.EnvelopeVariant
 import ua.aerostat.core.Field
 import ua.aerostat.core.FilmMaterial
+import ua.aerostat.core.GasType
 import ua.aerostat.core.HelpTopic
 import ua.aerostat.core.HelpTopics
 import ua.aerostat.core.Numbers
@@ -202,6 +203,30 @@ private fun EditorForm(
         }
     }
 
+    val gasFields = Calculator.gasFields(input)
+    if (gasFields.isNotEmpty()) {
+        SectionCard(title = Uk.SECTION_GAS, onHelp = { onHelp(HelpTopics.general.first { it.id == "archimedes" }) }) {
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                GasType.entries.forEach { g ->
+                    FilterChip(
+                        selected = input.gas == g,
+                        onClick = { onInputChange { it.copy(gas = g) } },
+                        label = { Text(g.title) },
+                        modifier = Modifier.testTag("chip_gas_${g.name}"),
+                    )
+                }
+            }
+            if (input.gas == GasType.HYDROGEN) {
+                Text(
+                    "Водень легкозаймистий: суміш з повітрям вибухонебезпечна. Працюйте лише просто неба, без джерел іскри.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.tertiary,
+                )
+            }
+            gasFields.forEach { f -> FieldInput(f, input, result, onInputChange, onHelp) }
+        }
+    }
+
     SectionCard(title = Uk.SECTION_NOTES) {
         OutlinedTextField(
             value = input.notes,
@@ -256,6 +281,10 @@ private fun LiveSummary(result: CalcResult, onOpenResults: () -> Unit) {
                 result.filmMass?.let { ValueRow(Uk.RESULT_FILM_MASS, "${Numbers.format(it, 3)} кг", emphasize = true) }
                 result.blankArea?.let { ValueRow(Uk.RESULT_BLANK_AREA, "${Numbers.format(it)} м²") }
                 result.totalMass?.let { ValueRow(Uk.RESULT_TOTAL, "${Numbers.format(it, 3)} кг") }
+                result.lift?.let { l ->
+                    ValueRow(Uk.LIFT_TARGET, "${Numbers.format(l.grossLiftTarget)} кг")
+                    l.payload?.let { p -> ValueRow(Uk.LIFT_PAYLOAD, "${Numbers.format(p)} кг") }
+                }
                 if (result.hasErrors) Text(Uk.FIX_ERRORS, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
             }
         }

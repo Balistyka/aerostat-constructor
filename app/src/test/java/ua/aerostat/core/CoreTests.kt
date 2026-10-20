@@ -294,3 +294,140 @@ class ReportTest {
         assertFalse(text.contains("безпечна конструкція"))
     }
 }
+
+class AtmosphereTest {
+    @Test fun seaLevelMatchesStandard() {
+        val a = Atmosphere.airAt(0.0)
+        assertEquals(288.15, a.temperatureK, 1e-6)
+        assertEquals(101325.0, a.pressurePa, 1e-6)
+        assertEquals(1.225, a.density, 1e-3)
+    }
+
+    @Test fun tenKilometresMatchesStandard() {
+        val a = Atmosphere.airAt(10_000.0)
+        assertEquals(223.15, a.temperatureK, 1e-6)
+        assertEquals(26_436.0, a.pressurePa, 60.0)
+        assertEquals(0.4127, a.density, 2e-3)
+    }
+
+    @Test fun stratosphereIsIsothermal() {
+        assertEquals(216.65, Atmosphere.temperatureK(15_000.0), 1e-6)
+        assertTrue(Atmosphere.pressurePa(15_000.0) < Atmosphere.pressurePa(11_000.0))
+    }
+
+    @Test fun gasDensitiesAtSeaLevel() {
+        val t = 288.15
+        assertEquals(0.0852, Atmosphere.density(101325.0, t, GasType.HYDROGEN.molarMass), 1e-3)
+        assertEquals(0.1691, Atmosphere.density(101325.0, t, GasType.HELIUM.molarMass), 1e-3)
+    }
+
+    @Test fun pressureFallsWithAltitude() {
+        var prev = Atmosphere.pressurePa(0.0)
+        for (h in 1..20) {
+            val p = Atmosphere.pressurePa(h * 1000.0)
+            assertTrue("Тиск має спадати на $h км", p < prev)
+            prev = p
+        }
+    }
+}
+
+class LiftTest {
+    private fun case(volume: Double = 73.03, gas: GasType = GasType.HYDROGEN, mass: Double? = 4.4, ballast: Double = 12.5) =
+        Lift.calculate(
+            gas = gas, envelopeVolume = volume, groundTempC = 15.0, groundPressureHPa = 1013.25,
+            targetAltitudeM = 10_000.0, ballastPercent = ballast, envelopeMass = mass,
+            cylinderVolumeL = 50.0, cylinderPressureAtm = 150.0, cylinderResidualAtm = 3.0,
+        )
+
+    @Test fun grossLiftAtAltitude() {
+        val r = case()
+        // 73,03 × (0,4127 − 0,0287) ≈ 28,0 кг
+        assertEquals(28.0, r.grossLiftTarget, 0.3)
+    }
+
+    @Test fun groundFillIsSmallerThanEnvelope() {
+        val r = case()
+        assertTrue(r.fillVolumeGround < r.envelopeVolume)
+        // Відношення об'ємів дорівнює відношенню густин газу
+        assertEquals(r.gasDensityTarget / r.gasDensityGround, r.fillVolumeGround / r.envelopeVolume, 1e-9)
+        assertEquals(24.6, r.fillVolumeGround, 0.4)
+    }
+
+    @Test fun cylinderOutputAndCount() {
+        val r = case()
+        // 50 л × (150 − 3) атм = 7,35 м³
+        assertEquals(7.35, r.cylinderOutput!!, 0.01)
+        assertEquals(r.fillVolumeGround / r.cylinderOutput!!, r.cylinderCount!!, 1e-9)
+        assertEquals(3.3, r.cylinderCount!!, 0.2)
+    }
+
+    @Test fun payloadIsLiftMinusBallastAndEnvelope() {
+        val r = case()
+        assertEquals(r.grossLiftTarget * 0.125, r.ballastMass!!, 1e-9)
+        assertEquals(r.grossLiftTarget - r.ballastMass!! - 4.4, r.payload!!, 1e-9)
+        assertEquals(20.2, r.payload!!, 0.4)
+    }
+
+    @Test fun heliumLiftsLessThanHydrogen() {
+        assertTrue(case(gas = GasType.HELIUM).grossLiftTarget < case(gas = GasType.HYDROGEN).grossLiftTarget)
+    }
+
+    @Test fun heavierEnvelopeMeansSmallerPayload() {
+        assertTrue(case(mass = 10.0).payload!! < case(mass = 4.4).payload!!)
+    }
+
+    @Test fun noEnvelopeMassMeansNoPayload() {
+        assertNull(case(mass = null).payload)
+    }
+
+    @Test fun liftAtGroundUsesPartialFill() {
+        val r = case()
+        assertTrue(r.grossLiftGround > 0)
+        // Маса газу стала, тому підйомна маса біля землі близька до висотної
+        assertEquals(r.grossLiftTarget, r.grossLiftGround, 2.0)
+    }
+
+    @Test fun zeroBallastGivesLargerPayload() {
+        assertTrue(case(ballast = 0.0).payload!! > case(ballast = 12.5).payload!!)
+    }
+}
+
+class CalculatorLiftTest {
+    private val envelope = ProjectInput(
+        shape = ShapeType.GATHERED, variant = EnvelopeVariant.OPEN_APPENDIX,
+        envelopeWidth = "6", envelopeHeight = "10", gatherPart = "1,1",
+        thicknessUm = "30", density = "920", layers = "1", wastePercent = "10", seamCm = "2",
+        fittingsKg = "0,5", fillFactor = "72", targetAltitude = "10",
+    )
+
+    @Test fun liftIsComputedForEnvelope() {
+        val r = Calculator.calculate(envelope)
+        assertFalse(r.hasErrors)
+        val lift = r.lift!!
+        assertEquals(73.0, lift.envelopeVolume, 1.0)
+        assertEquals(28.0, lift.grossLiftTarget, 0.5)
+        assertNotNull(lift.payload)
+    }
+
+    @Test fun fillFactorScalesVolume() {
+        val full = Calculator.calculate(envelope.copy(fillFactor = "100")).lift!!.envelopeVolume
+        val part = Calculator.calculate(envelope.copy(fillFactor = "50")).lift!!.envelopeVolume
+        assertEquals(full / 2, part, 1e-9)
+    }
+
+    @Test fun pearHasNoLift() {
+        assertNull(Calculator.calculate(envelope.copy(shape = ShapeType.PEAR)).lift)
+    }
+
+    @Test fun invalidAltitudeBlocksLift() {
+        val r = Calculator.calculate(envelope.copy(targetAltitude = "99"))
+        assertNotNull(r.errors[Field.TARGET_ALTITUDE])
+        assertNull(r.lift)
+    }
+
+    @Test fun negativeTemperatureIsAccepted() {
+        val r = Calculator.calculate(envelope.copy(groundTemp = "-20"))
+        assertFalse(r.hasErrors)
+        assertNotNull(r.lift)
+    }
+}
