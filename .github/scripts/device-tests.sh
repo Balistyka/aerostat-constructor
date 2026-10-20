@@ -28,7 +28,7 @@ if [ -s "$OUT/crash_log.txt" ] && grep -q "ua.aerostat" "$OUT/crash_log.txt"; th
 
 echo "== Instrumented UI-тести (MainFlowTest) =="
 ./gradlew --no-daemon connectedDebugAndroidTest \
-  -Pandroid.testInstrumentationRunnerArguments.class=ua.aerostat.MainFlowTest 2>&1 | tee "$OUT/connected_tests_log.txt"
+  -Pandroid.testInstrumentationRunnerArguments.class=ua.aerostat.MainFlowTest,ua.aerostat.PassportPdfTest 2>&1 | tee "$OUT/connected_tests_log.txt"
 CT=${PIPESTATUS[0]}
 echo "connectedDebugAndroidTest exit code: $CT" | tee -a "$OUT/connected_tests_log.txt"
 [ "$CT" -eq 0 ] || STATUS=1
@@ -40,7 +40,7 @@ shots () {
   adb install -r "$APK" >/dev/null 2>&1
   adb install -r -t "$TAPK" >/dev/null 2>&1
   adb shell pm clear ua.aerostat >/dev/null 2>&1
-  adb shell am instrument -w -e class ua.aerostat.ScreenshotTest -e shotPrefix "$prefix" \
+  adb shell am instrument -w -e class ua.aerostat.ScreenshotTest,ua.aerostat.PassportPdfTest -e shotPrefix "$prefix" \
     ua.aerostat.test/androidx.test.runner.AndroidJUnitRunner 2>&1 | tee "$OUT/screenshots_${prefix}_log.txt"
   for f in $(adb shell run-as ua.aerostat ls files/shots 2>/dev/null | tr -d '\r'); do
     adb exec-out run-as ua.aerostat cat "files/shots/$f" > "$OUT/shots/$f"

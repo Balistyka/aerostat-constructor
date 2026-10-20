@@ -4,6 +4,7 @@ package ua.aerostat.ui.screens
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -182,14 +183,13 @@ private fun MassCard(result: CalcResult, copy: (String, String) -> Unit, onHelp:
                 filmText,
                 style = NumberStyle.copy(fontSize = MaterialTheme.typography.displaySmall.fontSize),
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.testTag("film_mass"),
+                modifier = Modifier.testTag("film_mass").clickable { copy(Uk.RESULT_FILM_MASS, filmText) },
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             result.blankArea?.let { val v = "${Numbers.format(it)} м²"; ValueRow(Uk.RESULT_BLANK_AREA, v, { copy(Uk.RESULT_BLANK_AREA, v) }) }
             result.density?.let { val v = "${Numbers.format(it, 0)} кг/м³"; ValueRow("Густина", v, { copy("Густина", v) }) }
             result.fittingsMass?.let { val v = "${Numbers.format(it, 3)} кг"; ValueRow(Uk.RESULT_FITTINGS, v, { copy(Uk.RESULT_FITTINGS, v) }) }
             result.totalMass?.let { val v = "${Numbers.format(it, 3)} кг"; ValueRow(Uk.RESULT_TOTAL, v, { copy(Uk.RESULT_TOTAL, v) }, emphasize = true) }
-            ValueRow(Uk.RESULT_FILM_MASS, filmText, { copy(Uk.RESULT_FILM_MASS, filmText) })
             Text(
                 "Площа заготовки ≠ площа поверхні наповненої оболонки.",
                 style = MaterialTheme.typography.bodySmall,

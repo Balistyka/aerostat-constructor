@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -103,7 +104,7 @@ private fun AppScaffold(vm: AppViewModel, themeMode: ThemeMode) {
                                 selected = route == d.route,
                                 onClick = { goTop(d) },
                                 icon = { Icon(d.icon, contentDescription = null) },
-                                label = { Text(d.label, maxLines = 1) },
+                                label = { Text(d.label, maxLines = 1, softWrap = false, style = MaterialTheme.typography.labelMedium.copy(fontSize = 11.sp, letterSpacing = 0.sp)) },
                                 modifier = Modifier.testTag("nav_${d.route}"),
                             )
                         }
