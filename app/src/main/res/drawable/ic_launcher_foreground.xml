@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- Оболонка -->
+    <path android:fillColor="#FF83D5AE"
+        android:pathData="M54,28 C66.7,28 77,38.3 77,51 C77,62 69.5,70.5 60,74 L48,74 C38.5,70.5 31,62 31,51 C31,38.3 41.3,28 54,28 Z" />
+    <!-- Клини -->
+    <path android:strokeColor="#FF101820" android:strokeWidth="1.6" android:fillColor="#00000000"
+        android:pathData="M54,28 C47,36 45,60 50,74 M54,28 C61,36 63,60 58,74 M31,51 L77,51" />
+    <!-- Стропи і кошик -->
+    <path android:strokeColor="#FFF3F7F5" android:strokeWidth="1.6" android:fillColor="#00000000"
+        android:pathData="M48,74 L50,80 M60,74 L58,80" />
+    <path android:fillColor="#FFF3F7F5" android:pathData="M49,80 L59,80 L58,85 L50,85 Z" />
+</vector>
