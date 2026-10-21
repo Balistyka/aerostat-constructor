@@ -239,10 +239,7 @@ fun EmptyState(title: String, text: String, modifier: Modifier = Modifier, actio
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Box(
-            Modifier.size(56.dp).background(MaterialTheme.colorScheme.surfaceContainerHigh, CircleShape),
-            contentAlignment = Alignment.Center,
-        ) { Text("○", style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.primary) }
+        BrandMark(Modifier.size(48.dp), alpha = 0.45f)
         Text(title, style = MaterialTheme.typography.titleMedium)
         Text(text, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         if (action != null) {

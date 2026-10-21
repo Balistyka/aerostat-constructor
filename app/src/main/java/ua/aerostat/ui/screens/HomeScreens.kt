@@ -147,7 +147,7 @@ fun HomeScreen(
                 Spacer(Modifier.height(4.dp))
                 CircuitDivider(nodes = 2)
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    BrandMark(Modifier.size(22.dp), alpha = 0.7f)
+                    BrandMark(Modifier.size(26.dp), alpha = 0.75f)
                     Column {
                         Text(
                             Uk.BRIGADE_FULL,

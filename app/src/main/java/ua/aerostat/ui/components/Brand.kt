@@ -56,9 +56,14 @@ fun BrandLogo(modifier: Modifier = Modifier) {
 
 /** Монохромна мітка логотипа — для панелей і водяного знака. */
 @Composable
-fun BrandMark(modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.primary, alpha: Float = 1f) {
+fun BrandMark(
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.primary,
+    alpha: Float = 1f,
+    headOnly: Boolean = true,
+) {
     Image(
-        painter = painterResource(R.drawable.logo_mark),
+        painter = painterResource(if (headOnly) R.drawable.logo_mark_head else R.drawable.logo_mark),
         contentDescription = null,
         colorFilter = ColorFilter.tint(color.copy(alpha = alpha)),
         modifier = modifier,
@@ -76,7 +81,7 @@ fun BrigadeBadge(modifier: Modifier = Modifier, dense: Boolean = false) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        BrandMark(Modifier.size(if (dense) 14.dp else 18.dp))
+        BrandMark(Modifier.size(if (dense) 16.dp else 20.dp))
         Text(
             Uk.BRIGADE,
             style = if (dense) MaterialTheme.typography.labelSmall else MaterialTheme.typography.labelMedium,

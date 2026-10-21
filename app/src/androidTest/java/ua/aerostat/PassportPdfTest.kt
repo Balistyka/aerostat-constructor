@@ -1,8 +1,10 @@
 package ua.aerostat
 
+import android.graphics.BitmapFactory
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,7 +31,11 @@ class PassportPdfTest {
         val result = Calculator.calculate(project.input)
         val dir = File(ctx.filesDir, "shots").apply { mkdirs() }
         val file = File(dir, "passport_example.pdf")
-        file.outputStream().use { PassportPdf.write(it, project.name, Report.sections(project, result, "20.10.2026 20:30")) }
+        val logo = BitmapFactory.decodeResource(ctx.resources, R.drawable.logo_rd412)
+        assertNotNull("Логотип не декодувався", logo)
+        file.outputStream().use {
+            PassportPdf.write(it, project.name, Report.sections(project, result, "20.10.2026 20:30"), logo)
+        }
         val bytes = file.readBytes()
         assertTrue("PDF порожній", bytes.size > 2000)
         assertEquals("%PDF", String(bytes, 0, 4))
