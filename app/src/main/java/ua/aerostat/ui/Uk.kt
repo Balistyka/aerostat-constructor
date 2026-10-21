@@ -13,7 +13,7 @@ object Uk {
     const val ALL_PROJECTS = "Усі проєкти"
     const val NO_PROJECTS_TITLE = "Ще немає проєктів"
     const val NO_PROJECTS_TEXT = "Створіть перший проєкт — він збережеться на цьому пристрої."
-    const val VERSION_LINE = "Версія 0.3 · Працює офлайн · Цивільне призначення"
+    const val VERSION_LINE = "Версія 0.4 · Працює офлайн · Цивільне призначення"
     const val LOADING = "Завантаження…"
 
     const val NAV_HOME = "Головна"
