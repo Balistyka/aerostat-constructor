@@ -100,6 +100,7 @@ fun HomeScreen(
                 HeroHeader(
                     title = Uk.HOME_TITLE,
                     subtitle = Uk.HOME_SUBTITLE,
+                    titleTag = "home_title",
                     logoWidth = if (wide) 132.dp else 104.dp,
                 )
                 CircuitDivider()

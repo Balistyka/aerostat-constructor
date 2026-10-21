@@ -210,7 +210,8 @@ private fun KeyMetrics(result: CalcResult) {
                 value = "${Numbers.format(p)} кг",
                 caption = "на ${Numbers.format(lift.target.altitude / 1000.0)} км",
                 accent = p > 0,
-                modifier = Modifier.weight(1f).testTag("payload"),
+                valueTag = "payload",
+                modifier = Modifier.weight(1f),
             )
         }
         film?.let {
@@ -219,7 +220,8 @@ private fun KeyMetrics(result: CalcResult) {
                 value = "${Numbers.format(it, 3)} кг",
                 caption = result.blankArea?.let { a -> "${Numbers.format(a)} м² заготовки" },
                 accent = lift?.payload == null,
-                modifier = Modifier.weight(1f).testTag("film_mass"),
+                valueTag = "film_mass",
+                modifier = Modifier.weight(1f),
             )
         }
     }
@@ -229,7 +231,8 @@ private fun KeyMetrics(result: CalcResult) {
             value = "${kotlin.math.ceil(c - 1e-9).toInt()} шт.",
             caption = "${Numbers.format(lift.fillVolumeGround)} м³ газу · по ${Numbers.format(lift.cylinderOutput ?: 0.0)} м³ з балона",
             accent = false,
-            modifier = Modifier.fillMaxWidth().testTag("cylinders"),
+            valueTag = "cylinders",
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }

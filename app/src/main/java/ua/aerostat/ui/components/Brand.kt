@@ -25,6 +25,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
@@ -114,6 +115,7 @@ fun MetricTile(
     modifier: Modifier = Modifier,
     accent: Boolean = true,
     caption: String? = null,
+    valueTag: String? = null,
 ) {
     Column(
         modifier
@@ -139,6 +141,7 @@ fun MetricTile(
         Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Text(
             value,
+            modifier = if (valueTag != null) Modifier.testTag(valueTag) else Modifier,
             style = TextStyle(
                 brush = if (accent) numberBrush() else null,
                 fontSize = MaterialTheme.typography.headlineMedium.fontSize,
@@ -158,6 +161,7 @@ fun MetricTile(
 fun HeroHeader(
     title: String,
     subtitle: String,
+    titleTag: String? = null,
     logoWidth: Dp = 108.dp,
     content: @Composable ColumnScope.() -> Unit = {},
 ) {
@@ -182,7 +186,11 @@ fun HeroHeader(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 BrigadeBadge(dense = true)
-                Text(title, style = MaterialTheme.typography.headlineSmall)
+                Text(
+                    title,
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = if (titleTag != null) Modifier.testTag(titleTag) else Modifier,
+                )
                 Text(
                     subtitle,
                     style = MaterialTheme.typography.bodyMedium,
