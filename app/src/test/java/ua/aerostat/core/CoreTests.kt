@@ -434,6 +434,43 @@ class CalculatorLiftTest {
     }
 }
 
+class CylinderPresetTest {
+    @Test fun defaultProjectUsesNineCubicMetreCylinder() {
+        val p = ProjectInput()
+        assertEquals(CylinderPreset.STANDARD_9, p.cylinder)
+        assertEquals("45", p.cylinderVolume)
+        assertEquals("200", p.cylinderPressure)
+    }
+
+    @Test fun presetsHaveSaneOutput() {
+        CylinderPreset.entries.filter { it.volumeL != null }.forEach { c ->
+            val out = c.volumeL!! / 1000.0 * c.pressureAtm!!
+            assertTrue("${c.name}: $out", out in 4.0..12.0)
+        }
+    }
+
+    @Test fun standardNineGivesNineCubicMetres() {
+        val c = CylinderPreset.STANDARD_9
+        assertEquals(9.0, c.volumeL!! / 1000.0 * c.pressureAtm!!, 1e-9)
+    }
+
+    @Test fun defaultProjectCylinderCountIsComputed() {
+        val r = Calculator.calculate(
+            ProjectInput(shape = ShapeType.GATHERED, envelopeWidth = "6", envelopeHeight = "10", gatherPart = "1,1"),
+        )
+        val lift = r.lift!!
+        // 45 л × (200 − 3) атм = 8,865 м³ з балона
+        assertEquals(8.865, lift.cylinderOutput!!, 0.01)
+        assertEquals(lift.fillVolumeGround / lift.cylinderOutput!!, lift.cylinderCount!!, 1e-9)
+    }
+
+    @Test fun customPresetKeepsOwnValues() {
+        val p = ProjectInput(cylinder = CylinderPreset.CUSTOM, cylinderVolume = "12", cylinderPressure = "300")
+        val r = Calculator.calculate(p.copy(shape = ShapeType.SPHERE, diameter = "3"))
+        assertEquals(12.0 / 1000.0 * (300.0 - 3.0), r.lift!!.cylinderOutput!!, 0.02)
+    }
+}
+
 class InverseTest {
     private val base = ProjectInput(
         shape = ShapeType.GATHERED, gas = GasType.HYDROGEN,
@@ -555,6 +592,13 @@ class InverseTest {
         assertTrue(r.hasErrors)
         assertNotNull(r.errors[Field.TARGET_PAYLOAD])
         assertNull(r.solution)
+    }
+
+    @Test fun inverseReportsCylinders() {
+        val s = solved(input)
+        assertNotNull(s.cylinderOutput)
+        assertTrue(s.cylinderCount!! > 0)
+        assertEquals(s.fillVolumeGround / s.cylinderOutput!!, s.cylinderCount!!, 1e-9)
     }
 
     @Test fun producedProjectKeepsShapeAndGas() {

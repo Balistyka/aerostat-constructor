@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import ua.aerostat.core.CylinderPreset
 import ua.aerostat.core.Field
 import ua.aerostat.core.FilmMaterial
 import ua.aerostat.core.GasType
@@ -44,6 +45,7 @@ import ua.aerostat.core.ShapeType
 import ua.aerostat.ui.Uk
 import ua.aerostat.ui.components.AeroTopBar
 import ua.aerostat.ui.components.HelpDialog
+import ua.aerostat.ui.components.HeroHeader
 import ua.aerostat.ui.components.NumberField
 import ua.aerostat.ui.components.SectionCard
 import ua.aerostat.ui.components.StatusBadge
@@ -52,7 +54,10 @@ import ua.aerostat.ui.theme.NumberStyle
 
 private val targetFields = listOf(Field.TARGET_PAYLOAD, Field.TARGET_ALTITUDE, Field.FLIGHT_HOURS, Field.LIFT_LOSS_RATE)
 private val materialFields = listOf(Field.THICKNESS, Field.DENSITY, Field.LAYERS, Field.WASTE, Field.FITTINGS)
-private val gasFields = listOf(Field.FILL_FACTOR, Field.BALLAST_PERCENT, Field.GROUND_TEMP, Field.GROUND_PRESSURE)
+private val gasFields = listOf(
+    Field.FILL_FACTOR, Field.BALLAST_PERCENT, Field.GROUND_TEMP, Field.GROUND_PRESSURE,
+    Field.CYLINDER_VOLUME, Field.CYLINDER_PRESSURE, Field.CYLINDER_RESIDUAL,
+)
 
 @Composable
 fun InverseScreen(
@@ -74,7 +79,10 @@ fun InverseScreen(
                         Column(
                             Modifier.weight(1.1f).verticalScroll(rememberScrollState()).padding(vertical = 8.dp),
                             verticalArrangement = Arrangement.spacedBy(16.dp),
-                        ) { InverseForm(input, result, onChange) { help = it } }
+                        ) {
+                        HeroHeader(Uk.INVERSE_TITLE, Uk.INVERSE_CARD_TEXT, logoWidth = 92.dp)
+                        InverseForm(input, result, onChange) { help = it }
+                    }
                         Column(
                             Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(vertical = 8.dp),
                             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -85,6 +93,7 @@ fun InverseScreen(
                         Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp),
                     ) {
+                        HeroHeader(Uk.INVERSE_TITLE, Uk.INVERSE_CARD_TEXT, logoWidth = 84.dp)
                         InverseForm(input, result, onChange) { help = it }
                         InverseResultCard(result, onCreateProject) { help = it }
                         Spacer(Modifier.height(16.dp))
@@ -166,6 +175,27 @@ private fun InverseForm(
                 )
             }
         }
+        Text(Uk.SECTION_CYLINDERS, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            CylinderPreset.entries.forEach { c ->
+                FilterChip(
+                    selected = input.base.cylinder == c,
+                    onClick = {
+                        onChange { i ->
+                            if (c.volumeL != null && c.pressureAtm != null) i.copy(
+                                base = i.base.copy(
+                                    cylinder = c,
+                                    cylinderVolume = Numbers.toInput(c.volumeL),
+                                    cylinderPressure = Numbers.toInput(c.pressureAtm),
+                                ),
+                            ) else i.copy(base = i.base.copy(cylinder = c))
+                        }
+                    },
+                    label = { Text(c.title) },
+                    modifier = Modifier.testTag("inv_cyl_${c.name}"),
+                )
+            }
+        }
         gasFields.forEach { field(it) }
     }
 }
@@ -209,6 +239,11 @@ private fun InverseResultCard(
                 ValueRow(Uk.INVERSE_GROSS, "${Numbers.format(s.grossLift)} кг")
                 ValueRow(Uk.INVERSE_BALLAST, "${Numbers.format(s.ballastMass)} кг")
                 if (s.durationReserve > 0) ValueRow(Uk.INVERSE_RESERVE, "${Numbers.format(s.durationReserve)} кг")
+                ValueRow(Uk.INVERSE_FILL, "${Numbers.format(s.fillVolumeGround)} м³")
+                s.cylinderCount?.let { c ->
+                    ValueRow(Uk.LIFT_CYL_COUNT, Numbers.format(c))
+                    ValueRow(Uk.LIFT_CYL_FULL, "${kotlin.math.ceil(c - 1e-9).toInt()} шт.")
+                }
                 ValueRow(Uk.INVERSE_PAYLOAD, "${Numbers.format(s.payload)} кг", emphasize = true)
                 Button(
                     onClick = { onCreateProject(s.project) },

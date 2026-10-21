@@ -2,24 +2,30 @@
 
 package ua.aerostat.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -40,6 +46,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -48,9 +55,12 @@ import ua.aerostat.core.Numbers
 import ua.aerostat.core.Project
 import ua.aerostat.ui.Uk
 import ua.aerostat.ui.components.AeroTopBar
+import ua.aerostat.ui.components.BrandMark
+import ua.aerostat.ui.components.CircuitDivider
 import ua.aerostat.ui.components.ConfirmDialog
 import ua.aerostat.ui.components.ContentMaxWidth
 import ua.aerostat.ui.components.EmptyState
+import ua.aerostat.ui.components.HeroHeader
 import ua.aerostat.ui.components.Overline
 import ua.aerostat.ui.components.StatusBadge
 import java.text.SimpleDateFormat
@@ -81,57 +91,124 @@ fun HomeScreen(
     onAllProjects: () -> Unit,
 ) {
     CenteredColumn {
-        Column(
-            Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Overline(Uk.APP_OVERLINE)
-            Text(Uk.HOME_TITLE, style = MaterialTheme.typography.headlineLarge, modifier = Modifier.testTag("home_title"))
-            Text(Uk.HOME_SUBTITLE, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
-
-            Card(
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-                shape = MaterialTheme.shapes.extraLarge,
-                modifier = Modifier.fillMaxWidth(),
+        BoxWithConstraints(Modifier.fillMaxSize()) {
+            val wide = maxWidth >= 600.dp
+            Column(
+                Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                Column(Modifier.padding(24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Text(Uk.NEW_PROJECT, style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onPrimaryContainer)
-                    Text(Uk.NEW_PROJECT_TEXT, color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.85f))
-                    Button(onClick = onNewProject, modifier = Modifier.testTag("new_project")) {
-                        Icon(Icons.Filled.Add, contentDescription = null)
-                        Spacer(Modifier.padding(start = 6.dp))
-                        Text(Uk.CREATE)
+                HeroHeader(
+                    title = Uk.HOME_TITLE,
+                    subtitle = Uk.HOME_SUBTITLE,
+                    logoWidth = if (wide) 132.dp else 104.dp,
+                )
+                CircuitDivider()
+
+                if (wide) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                        ActionCard(
+                            Uk.NEW_PROJECT, Uk.NEW_PROJECT_TEXT, Uk.CREATE, Icons.Filled.Add,
+                            primary = true, onClick = onNewProject, tag = "new_project", modifier = Modifier.weight(1f),
+                        )
+                        ActionCard(
+                            Uk.INVERSE_CARD, Uk.INVERSE_CARD_TEXT, Uk.INVERSE_OPEN, Icons.Filled.Search,
+                            primary = false, onClick = onInverse, tag = "open_inverse", modifier = Modifier.weight(1f),
+                        )
+                    }
+                } else {
+                    ActionCard(
+                        Uk.NEW_PROJECT, Uk.NEW_PROJECT_TEXT, Uk.CREATE, Icons.Filled.Add,
+                        primary = true, onClick = onNewProject, tag = "new_project",
+                    )
+                    ActionCard(
+                        Uk.INVERSE_CARD, Uk.INVERSE_CARD_TEXT, Uk.INVERSE_OPEN, Icons.Filled.Search,
+                        primary = false, onClick = onInverse, tag = "open_inverse",
+                    )
+                }
+
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
+                    Text(Uk.RECENT, style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
+                    if (!projects.isNullOrEmpty()) {
+                        TextButton(onClick = onAllProjects) {
+                            Text(Uk.ALL_PROJECTS)
+                            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, modifier = Modifier.size(18.dp))
+                        }
                     }
                 }
-            }
-
-            Card(
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
-                shape = MaterialTheme.shapes.extraLarge,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Column(Modifier.padding(24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Text(Uk.INVERSE_CARD, style = MaterialTheme.typography.titleLarge)
-                    Text(Uk.INVERSE_CARD_TEXT, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    OutlinedButton(onClick = onInverse, modifier = Modifier.testTag("open_inverse")) {
-                        Text(Uk.INVERSE_OPEN)
+                when {
+                    projects == null -> Text(Uk.LOADING, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    projects.isEmpty() -> EmptyState(Uk.NO_PROJECTS_TITLE, Uk.NO_PROJECTS_TEXT)
+                    else -> projects.sortedByDescending { it.updatedAt }.take(3).forEach { p ->
+                        ProjectCard(p, onOpen = { onOpenProject(p.id) })
                     }
                 }
-            }
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(Uk.RECENT, style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
-                if (!projects.isNullOrEmpty()) TextButton(onClick = onAllProjects) { Text(Uk.ALL_PROJECTS) }
-            }
-            when {
-                projects == null -> Text(Uk.LOADING, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                projects.isEmpty() -> EmptyState(Uk.NO_PROJECTS_TITLE, Uk.NO_PROJECTS_TEXT)
-                else -> projects.sortedByDescending { it.updatedAt }.take(3).forEach { p ->
-                    ProjectCard(p, onOpen = { onOpenProject(p.id) })
+                Spacer(Modifier.height(4.dp))
+                CircuitDivider(nodes = 2)
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    BrandMark(Modifier.size(22.dp), alpha = 0.7f)
+                    Column {
+                        Text(
+                            Uk.BRIGADE_FULL,
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        Text(
+                            Uk.VERSION_LINE,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
                 }
+                Spacer(Modifier.height(12.dp))
             }
-            Spacer(Modifier.height(8.dp))
-            Text(Uk.VERSION_LINE, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+    }
+}
+
+@Composable
+private fun ActionCard(
+    title: String,
+    text: String,
+    action: String,
+    icon: ImageVector,
+    primary: Boolean,
+    onClick: () -> Unit,
+    tag: String,
+    modifier: Modifier = Modifier,
+) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = if (primary) MaterialTheme.colorScheme.primaryContainer
+            else MaterialTheme.colorScheme.surfaceContainer,
+        ),
+        border = if (primary) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        shape = MaterialTheme.shapes.extraLarge,
+    ) {
+        Column(Modifier.padding(22.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Icon(
+                    icon, contentDescription = null,
+                    tint = if (primary) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.primary,
+                )
+                Text(
+                    title,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = if (primary) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface,
+                )
+            }
+            Text(
+                text,
+                style = MaterialTheme.typography.bodyMedium,
+                color = if (primary) MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.85f)
+                else MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            if (primary) {
+                Button(onClick = onClick, modifier = Modifier.testTag(tag)) { Text(action) }
+            } else {
+                OutlinedButton(onClick = onClick, modifier = Modifier.testTag(tag)) { Text(action) }
+            }
         }
     }
 }
@@ -149,6 +226,7 @@ fun ProjectCard(
         onClick = onOpen,
         modifier = Modifier.fillMaxWidth().testTag("project_card"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         shape = MaterialTheme.shapes.large,
     ) {
         Row(Modifier.padding(start = 20.dp, top = 16.dp, bottom = 16.dp, end = 8.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -156,22 +234,30 @@ fun ProjectCard(
                 Text(project.name, style = MaterialTheme.typography.titleMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text(
                     "${project.input.shape.title} · ${project.input.variant.title}",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                    val payload = result.lift?.payload
                     val mass = result.totalMass
                     Text(
-                        if (mass != null) "${Numbers.format(mass, 3)} кг" else Uk.RESULT_NOT_COMPUTED,
+                        when {
+                            payload != null -> "${Numbers.format(payload)} кг вантажу"
+                            mass != null -> "${Numbers.format(mass, 3)} кг"
+                            else -> Uk.RESULT_NOT_COMPUTED
+                        },
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary,
                     )
-                    Text(
-                        "${Uk.UPDATED} ${formatDate(project.updatedAt)}",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+                    StatusBadge(result.status)
                 }
+                Text(
+                    "${Uk.UPDATED} ${formatDate(project.updatedAt)}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
             if (onDuplicate != null || onDelete != null) {
                 Box {
@@ -205,7 +291,7 @@ fun ProjectsScreen(
     var toDelete by remember { mutableStateOf<Project?>(null) }
     CenteredColumn {
         Column(Modifier.fillMaxSize()) {
-            AeroTopBar(Uk.PROJECTS_TITLE, onBack = null) {
+            AeroTopBar(Uk.PROJECTS_TITLE, onBack = null, brand = true) {
                 IconButton(onClick = onNew) { Icon(Icons.Filled.Add, contentDescription = Uk.NEW_PROJECT) }
             }
             when {
@@ -215,7 +301,7 @@ fun ProjectsScreen(
                 }
                 else -> LazyColumn(
                     Modifier.fillMaxSize().testTag("projects_list"),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 20.dp, vertical = 8.dp),
+                    contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     items(projects.sortedByDescending { it.updatedAt }, key = { it.id }) { p ->
@@ -243,6 +329,6 @@ fun ProjectsScreen(
 }
 
 @Composable
-internal fun StatusLine(project: Project) {
-    StatusBadge(project.input.shape.status)
+internal fun ProjectStatus(project: Project) {
+    Overline(project.input.shape.title)
 }

@@ -64,6 +64,16 @@ enum class FilmMaterial(val title: String, val density: Double?) {
     CUSTOM("Власний матеріал", null),
 }
 
+/** Типові газові балони. Значення орієнтовні — за потреби вводьте свої. */
+enum class CylinderPreset(val title: String, val volumeL: Double?, val pressureAtm: Double?) {
+    STANDARD_9("9 м³ · 200 атм", 45.0, 200.0),
+    L40_150("40 л · 150 атм", 40.0, 150.0),
+    L40_200("40 л · 200 атм", 40.0, 200.0),
+    L50_150("50 л · 150 атм", 50.0, 150.0),
+    L50_200("50 л · 200 атм", 50.0, 200.0),
+    CUSTOM("Власний балон", null, null),
+}
+
 /**
  * Вихідні дані проєкту. Числові поля зберігаються так, як їх ввів користувач
  * (із комою), щоб відновлення проєкту повертало точно введений текст.
@@ -99,8 +109,9 @@ data class ProjectInput(
     val groundPressure: String = "1013",
     val targetAltitude: String = "10",
     val ballastPercent: String = "12",
-    val cylinderVolume: String = "50",
-    val cylinderPressure: String = "150",
+    val cylinder: CylinderPreset = CylinderPreset.STANDARD_9,
+    val cylinderVolume: String = "45",
+    val cylinderPressure: String = "200",
     val cylinderResidual: String = "3",
     val notes: String = "",
 ) {

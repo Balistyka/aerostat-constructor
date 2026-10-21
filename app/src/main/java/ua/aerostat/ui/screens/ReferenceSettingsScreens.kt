@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -40,6 +41,9 @@ import ua.aerostat.core.HelpTopic
 import ua.aerostat.core.HelpTopics
 import ua.aerostat.ui.Uk
 import ua.aerostat.ui.components.AeroTopBar
+import ua.aerostat.ui.components.BrandLogo
+import ua.aerostat.ui.components.BrigadeBadge
+import ua.aerostat.ui.components.CircuitDivider
 import ua.aerostat.ui.components.HelpDialog
 import ua.aerostat.ui.components.Overline
 import ua.aerostat.ui.components.SectionCard
@@ -51,7 +55,7 @@ fun ReferenceScreen() {
     val grouped = remember { HelpTopics.all.groupBy { it.category } }
     CenteredColumn {
         Column(Modifier.fillMaxSize()) {
-            AeroTopBar(Uk.REFERENCE_TITLE, onBack = null)
+            AeroTopBar(Uk.REFERENCE_TITLE, onBack = null, brand = true)
             LazyColumn(
                 Modifier.fillMaxSize().testTag("reference_list"),
                 contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 20.dp, vertical = 4.dp),
@@ -96,7 +100,7 @@ fun ReferenceScreen() {
 fun SettingsScreen(themeMode: ThemeMode, onThemeMode: (ThemeMode) -> Unit) {
     CenteredColumn {
         Column(Modifier.fillMaxSize()) {
-            AeroTopBar(Uk.SETTINGS_TITLE, onBack = null)
+            AeroTopBar(Uk.SETTINGS_TITLE, onBack = null, brand = true)
             Column(
                 Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -119,8 +123,15 @@ fun SettingsScreen(themeMode: ThemeMode, onThemeMode: (ThemeMode) -> Unit) {
                 SectionCard(title = Uk.SETTINGS_PURPOSE) { Text(Uk.PURPOSE_TEXT) }
                 SectionCard(title = Uk.LIMITS_TITLE) { Text(Uk.LIMITS_TEXT) }
                 SectionCard(title = Uk.SETTINGS_ABOUT) {
-                    Text(Uk.APP_NAME, style = MaterialTheme.typography.titleMedium)
-                    Text(Uk.VERSION_LINE, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                        BrandLogo(Modifier.width(96.dp))
+                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            Text(Uk.APP_NAME, style = MaterialTheme.typography.titleMedium)
+                            BrigadeBadge(dense = true)
+                            Text(Uk.VERSION_LINE, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    }
+                    CircuitDivider(nodes = 2)
                     Text(Uk.ABOUT_TEXT, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 Spacer(Modifier.height(16.dp))

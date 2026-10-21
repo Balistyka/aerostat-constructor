@@ -62,9 +62,19 @@ import ua.aerostat.ui.theme.NumberStyle
 val ContentMaxWidth = 960.dp
 
 @Composable
-fun AeroTopBar(title: String, onBack: (() -> Unit)?, actions: @Composable () -> Unit = {}) {
+fun AeroTopBar(
+    title: String,
+    onBack: (() -> Unit)?,
+    brand: Boolean = false,
+    actions: @Composable () -> Unit = {},
+) {
     TopAppBar(
-        title = { Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        title = {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                if (brand && onBack == null) BrandMark(Modifier.size(24.dp))
+                Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            }
+        },
         navigationIcon = {
             if (onBack != null) {
                 IconButton(onClick = onBack, modifier = Modifier.testTag("back")) {

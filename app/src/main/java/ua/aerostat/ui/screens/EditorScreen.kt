@@ -39,6 +39,7 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import ua.aerostat.core.CalcResult
 import ua.aerostat.core.Calculator
+import ua.aerostat.core.CylinderPreset
 import ua.aerostat.core.EnvelopeVariant
 import ua.aerostat.core.Field
 import ua.aerostat.core.FilmMaterial
@@ -223,6 +224,25 @@ private fun EditorForm(
                     color = MaterialTheme.colorScheme.tertiary,
                 )
             }
+            Text(Uk.SECTION_CYLINDERS, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                CylinderPreset.entries.forEach { c ->
+                    FilterChip(
+                        selected = input.cylinder == c,
+                        onClick = {
+                            onInputChange {
+                                if (c.volumeL != null && c.pressureAtm != null) it.copy(
+                                    cylinder = c,
+                                    cylinderVolume = Numbers.toInput(c.volumeL),
+                                    cylinderPressure = Numbers.toInput(c.pressureAtm),
+                                ) else it.copy(cylinder = c)
+                            }
+                        },
+                        label = { Text(c.title) },
+                        modifier = Modifier.testTag("chip_cyl_${c.name}"),
+                    )
+                }
+            }
             gasFields.forEach { f -> FieldInput(f, input, result, onInputChange, onHelp) }
         }
     }
@@ -257,6 +277,11 @@ private fun FieldInput(
             val t = text.take(20)
             onInputChange { cur ->
                 var next = Calculator.withValue(cur, field, t)
+                if ((field == Field.CYLINDER_VOLUME || field == Field.CYLINDER_PRESSURE) && cur.cylinder != CylinderPreset.CUSTOM) {
+                    val preset = if (field == Field.CYLINDER_VOLUME) cur.cylinder.volumeL else cur.cylinder.pressureAtm
+                    val typed = (Numbers.parse(t) as? ParsedNumber.Value)?.value
+                    if (typed != preset) next = next.copy(cylinder = CylinderPreset.CUSTOM)
+                }
                 if (field == Field.DENSITY && cur.material != FilmMaterial.CUSTOM) {
                     val preset = cur.material.density
                     val typed = (Numbers.parse(t) as? ParsedNumber.Value)?.value

@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:localeConfig="@xml/locales_config"
         android:supportsRtl="false"
-        android:theme="@style/Theme.Aerostat">
+        android:theme="@style/Theme.Aerostat.Splash">
         <activity
             android:name=".MainActivity"
             android:exported="true"

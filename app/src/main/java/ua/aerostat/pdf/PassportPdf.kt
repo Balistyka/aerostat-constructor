@@ -1,12 +1,17 @@
 package ua.aerostat.pdf
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
+import android.graphics.Rect
+import android.graphics.RectF
 import android.net.Uri
+import ua.aerostat.R
 import ua.aerostat.core.ReportSection
 import java.io.OutputStream
 
@@ -19,12 +24,13 @@ object PassportPdf {
 
     fun write(context: Context, uri: Uri, projectName: String, sections: List<ReportSection>) {
         val out = context.contentResolver.openOutputStream(uri) ?: error("Немає доступу до файлу")
-        out.use { write(it, projectName, sections) }
+        val logo = runCatching { BitmapFactory.decodeResource(context.resources, R.drawable.logo_rd412) }.getOrNull()
+        out.use { write(it, projectName, sections, logo) }
     }
 
-    fun write(out: OutputStream, projectName: String, sections: List<ReportSection>) {
+    fun write(out: OutputStream, projectName: String, sections: List<ReportSection>, logo: Bitmap? = null) {
         val doc = PdfDocument()
-        val w = Writer(doc, projectName)
+        val w = Writer(doc, projectName, logo)
         try {
             w.title("Паспорт оболонки", projectName)
             sections.forEach { w.section(it) }
@@ -35,7 +41,7 @@ object PassportPdf {
         }
     }
 
-    private class Writer(private val doc: PdfDocument, private val projectName: String) {
+    private class Writer(private val doc: PdfDocument, private val projectName: String, private val logo: Bitmap?) {
         private val accent = Color.rgb(43, 125, 89)
         private val text = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.rgb(16, 24, 32); textSize = 10.5f; typeface = Typeface.SANS_SERIF }
         private val muted = Paint(text).apply { color = Color.rgb(85, 99, 106) }
@@ -60,7 +66,7 @@ object PassportPdf {
             page = p
             canvas = p.canvas
             y = MARGIN
-            canvas.drawText("Аеростат Конструктор · Паспорт оболонки", MARGIN, y, small)
+            canvas.drawText("Аеростат Конструктор · R&D 412 бригади", MARGIN, y, small)
             y += 18f
         }
 
@@ -86,6 +92,16 @@ object PassportPdf {
         fun title(t: String, sub: String) {
             ensure(60f)
             y += 16f
+            logo?.let { bmp ->
+                val h = 74f
+                val w = h * bmp.width / bmp.height
+                canvas.drawBitmap(
+                    bmp,
+                    Rect(0, 0, bmp.width, bmp.height),
+                    RectF(PAGE_W - MARGIN - w, y - 16f, PAGE_W - MARGIN, y - 16f + h),
+                    Paint(Paint.FILTER_BITMAP_FLAG),
+                )
+            }
             canvas.drawText(t, MARGIN, y, h1)
             y += 20f
             wrap(sub, contentW, bold).forEach { canvas.drawText(it, MARGIN, y, bold); y += 15f }

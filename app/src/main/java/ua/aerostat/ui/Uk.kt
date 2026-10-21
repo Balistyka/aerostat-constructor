@@ -3,9 +3,11 @@ package ua.aerostat.ui
 /** Усі тексти інтерфейсу — українською. */
 object Uk {
     const val APP_NAME = "Аеростат Конструктор"
+    const val BRIGADE = "R&D 412 бригади"
+    const val BRIGADE_FULL = "Відділ R&D 412 бригади"
     const val APP_OVERLINE = "Аеростат"
     const val HOME_TITLE = "Конструктор оболонок"
-    const val HOME_SUBTITLE = "Цивільний інженерний калькулятор: геометрія, розкрій і маса плівки. Працює без інтернету."
+    const val HOME_SUBTITLE = "Геометрія, розкрій, маса плівки, газ і підйомна сила. Працює без інтернету."
     const val NEW_PROJECT = "Новий проєкт"
     const val NEW_PROJECT_TEXT = "Оберіть тип оболонки, задайте розміри й матеріал — результат рахується одразу."
     const val CREATE = "Створити"
@@ -13,7 +15,7 @@ object Uk {
     const val ALL_PROJECTS = "Усі проєкти"
     const val NO_PROJECTS_TITLE = "Ще немає проєктів"
     const val NO_PROJECTS_TEXT = "Створіть перший проєкт — він збережеться на цьому пристрої."
-    const val VERSION_LINE = "Версія 0.4 · Працює офлайн · Цивільне призначення"
+    const val VERSION_LINE = "Версія 0.5 · Працює офлайн · Цивільне призначення"
     const val LOADING = "Завантаження…"
 
     const val NAV_HOME = "Головна"
@@ -58,6 +60,8 @@ object Uk {
     const val LIFT_ENVELOPE_MASS = "Маса оболонки з кріпленнями"
     const val LIFT_CYL_OUTPUT = "Вихід з одного балона"
     const val LIFT_CYL_COUNT = "Потрібно балонів"
+    const val LIFT_CYL_FULL = "Повних балонів узяти"
+    const val SECTION_CYLINDERS = "Балони"
     const val LIFT_AIR_GROUND = "Густина повітря біля землі"
     const val LIFT_AIR_TARGET = "Густина повітря на висоті"
     const val LIFT_GAS_GROUND = "Густина газу біля землі"
@@ -105,6 +109,7 @@ object Uk {
     const val INVERSE_BALLAST = "Баласт"
     const val INVERSE_RESERVE = "Запас на тривалість"
     const val INVERSE_PAYLOAD = "Корисний вантаж"
+    const val INVERSE_FILL = "Газу вдути біля землі"
     const val INVERSE_FIX = "Виправте позначені поля."
 
     const val PROJECTS_TITLE = "Мої проєкти"

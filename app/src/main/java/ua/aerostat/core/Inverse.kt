@@ -32,6 +32,9 @@ data class InverseSolution(
     val filmMass: Double,
     val envelopeMass: Double,
     val grossLift: Double,
+    val fillVolumeGround: Double,
+    val cylinderOutput: Double?,
+    val cylinderCount: Double?,
     val ballastMass: Double,
     val durationReserve: Double,
     val payload: Double,
@@ -63,7 +66,10 @@ object Inverse {
             ShapeType.PEAR -> emptyList()
         }
         val material = listOf(Field.THICKNESS, Field.DENSITY, Field.LAYERS, Field.WASTE, Field.FITTINGS)
-        val gas = listOf(Field.FILL_FACTOR, Field.BALLAST_PERCENT, Field.GROUND_TEMP, Field.GROUND_PRESSURE)
+        val gas = listOf(
+            Field.FILL_FACTOR, Field.BALLAST_PERCENT, Field.GROUND_TEMP, Field.GROUND_PRESSURE,
+            Field.CYLINDER_VOLUME, Field.CYLINDER_PRESSURE, Field.CYLINDER_RESIDUAL,
+        )
         return target + shapeFields + material + gas
     }
 
@@ -266,6 +272,9 @@ object Inverse {
             fillFactor = Numbers.toInput(v.getValue(Field.FILL_FACTOR)),
             groundTemp = Numbers.toInput(v.getValue(Field.GROUND_TEMP)),
             groundPressure = Numbers.toInput(v.getValue(Field.GROUND_PRESSURE)),
+            cylinderVolume = Numbers.toInput(v.getValue(Field.CYLINDER_VOLUME)),
+            cylinderPressure = Numbers.toInput(v.getValue(Field.CYLINDER_PRESSURE)),
+            cylinderResidual = Numbers.toInput(v.getValue(Field.CYLINDER_RESIDUAL)),
             thicknessUm = Numbers.toInput(v.getValue(Field.THICKNESS)),
             density = Numbers.toInput(v.getValue(Field.DENSITY)),
             layers = Numbers.toInput(v.getValue(Field.LAYERS)),
@@ -292,6 +301,9 @@ object Inverse {
                 mainDimension = rounded, mainDimensionLabel = label,
                 secondDimension = second, secondDimensionLabel = secondLabel,
                 workingVolume = volume,
+                fillVolumeGround = lift?.fillVolumeGround ?: 0.0,
+                cylinderOutput = lift?.cylinderOutput,
+                cylinderCount = lift?.cylinderCount,
                 filmArea = forward.blankArea ?: 0.0,
                 filmMass = forward.filmMass ?: 0.0,
                 envelopeMass = envelopeMass,

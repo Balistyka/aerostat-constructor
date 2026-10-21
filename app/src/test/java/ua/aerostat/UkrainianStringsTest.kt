@@ -3,6 +3,7 @@ package ua.aerostat
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import ua.aerostat.core.Calculator
+import ua.aerostat.core.CylinderPreset
 import ua.aerostat.core.EnvelopeVariant
 import ua.aerostat.core.Field
 import ua.aerostat.core.FilmMaterial
@@ -48,12 +49,20 @@ class UkrainianStringsTest {
     }
 
     @Test
+    fun brandingStrings() {
+        check("BRIGADE", Uk.BRIGADE)
+        check("BRIGADE_FULL", Uk.BRIGADE_FULL)
+        assertTrue("Немає номера бригади", Uk.BRIGADE.contains("412"))
+    }
+
+    @Test
     fun enums() {
         ShapeType.entries.forEach { check(it.name, it.title); check(it.name, it.description) }
         ModelStatus.entries.forEach { check(it.name, it.title); check(it.name, it.explanation) }
         EnvelopeVariant.entries.forEach { check(it.name, it.title); check(it.name, it.description) }
         FilmMaterial.entries.forEach { check(it.name, it.title) }
         GasType.entries.forEach { check(it.name, it.title) }
+        CylinderPreset.entries.forEach { check(it.name, it.title) }
         Field.entries.forEach { check(it.name, it.label); check(it.name, it.unit, requireCyrillic = false) }
         HelpCategory.entries.forEach { check(it.name, it.title) }
         ThemeMode.entries.forEach { check(it.name, it.title) }

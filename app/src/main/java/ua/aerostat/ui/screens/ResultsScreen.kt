@@ -55,6 +55,7 @@ import ua.aerostat.pdf.PassportPdf
 import ua.aerostat.ui.Uk
 import ua.aerostat.ui.components.AeroTopBar
 import ua.aerostat.ui.components.HelpDialog
+import ua.aerostat.ui.components.MetricTile
 import ua.aerostat.ui.components.SectionCard
 import ua.aerostat.ui.components.StatusBadge
 import ua.aerostat.ui.components.ValueRow
@@ -105,6 +106,7 @@ fun ResultsScreen(project: Project?, onBack: () -> Unit) {
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     StatusBadge(result.status)
+                    KeyMetrics(result)
 
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
                         Button(
@@ -182,14 +184,7 @@ private fun MassCard(result: CalcResult, copy: (String, String) -> Unit, onHelp:
             Text(Uk.RESULT_NOT_COMPUTED + ". " + Uk.FIX_ERRORS, color = MaterialTheme.colorScheme.error)
         } else {
             val filmText = "${Numbers.format(film, 3)} кг"
-            Text(Uk.RESULT_FILM_MASS, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(
-                filmText,
-                style = NumberStyle.copy(fontSize = MaterialTheme.typography.displaySmall.fontSize),
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.testTag("film_mass").clickable { copy(Uk.RESULT_FILM_MASS, filmText) },
-            )
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+            ValueRow(Uk.RESULT_FILM_MASS, filmText, { copy(Uk.RESULT_FILM_MASS, filmText) }, emphasize = true)
             result.blankArea?.let { val v = "${Numbers.format(it)} м²"; ValueRow(Uk.RESULT_BLANK_AREA, v, { copy(Uk.RESULT_BLANK_AREA, v) }) }
             result.density?.let { val v = "${Numbers.format(it, 0)} кг/м³"; ValueRow("Густина", v, { copy("Густина", v) }) }
             result.fittingsMass?.let { val v = "${Numbers.format(it, 3)} кг"; ValueRow(Uk.RESULT_FITTINGS, v, { copy(Uk.RESULT_FITTINGS, v) }) }
@@ -204,6 +199,42 @@ private fun MassCard(result: CalcResult, copy: (String, String) -> Unit, onHelp:
 }
 
 @Composable
+private fun KeyMetrics(result: CalcResult) {
+    val film = result.filmMass
+    val lift = result.lift
+    if (film == null && lift == null) return
+    Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
+        lift?.payload?.let { p ->
+            MetricTile(
+                label = Uk.LIFT_PAYLOAD,
+                value = "${Numbers.format(p)} кг",
+                caption = "на ${Numbers.format(lift.target.altitude / 1000.0)} км",
+                accent = p > 0,
+                modifier = Modifier.weight(1f).testTag("payload"),
+            )
+        }
+        film?.let {
+            MetricTile(
+                label = Uk.RESULT_FILM_MASS,
+                value = "${Numbers.format(it, 3)} кг",
+                caption = result.blankArea?.let { a -> "${Numbers.format(a)} м² заготовки" },
+                accent = lift?.payload == null,
+                modifier = Modifier.weight(1f).testTag("film_mass"),
+            )
+        }
+    }
+    lift?.cylinderCount?.let { c ->
+        MetricTile(
+            label = Uk.LIFT_CYL_FULL,
+            value = "${kotlin.math.ceil(c - 1e-9).toInt()} шт.",
+            caption = "${Numbers.format(lift.fillVolumeGround)} м³ газу · по ${Numbers.format(lift.cylinderOutput ?: 0.0)} м³ з балона",
+            accent = false,
+            modifier = Modifier.fillMaxWidth().testTag("cylinders"),
+        )
+    }
+}
+
+@Composable
 private fun LiftCard(result: CalcResult, copy: (String, String) -> Unit, onHelp: (HelpTopic) -> Unit) {
     val l = result.lift ?: return
     SectionCard(
@@ -212,18 +243,8 @@ private fun LiftCard(result: CalcResult, copy: (String, String) -> Unit, onHelp:
         modifier = Modifier.testTag("lift_card"),
     ) {
         val payload = l.payload
-        if (payload != null) {
-            Text(Uk.LIFT_PAYLOAD, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(
-                "${Numbers.format(payload)} кг",
-                style = NumberStyle.copy(fontSize = MaterialTheme.typography.displaySmall.fontSize),
-                color = if (payload > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
-                modifier = Modifier.testTag("payload"),
-            )
-            if (payload <= 0) {
-                Text(Uk.LIFT_NEGATIVE, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error)
-            }
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+        if (payload != null && payload <= 0) {
+            Text(Uk.LIFT_NEGATIVE, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error)
         }
         val rows = buildList {
             add(Uk.LIFT_WORKING_VOLUME to "${Numbers.format(l.envelopeVolume)} м³")
@@ -233,7 +254,10 @@ private fun LiftCard(result: CalcResult, copy: (String, String) -> Unit, onHelp:
             l.envelopeMass?.let { add(Uk.LIFT_ENVELOPE_MASS to "${Numbers.format(it, 3)} кг") }
             l.ballastMass?.let { add(Uk.LIFT_BALLAST to "${Numbers.format(it)} кг") }
             l.cylinderOutput?.let { add(Uk.LIFT_CYL_OUTPUT to "${Numbers.format(it)} м³") }
-            l.cylinderCount?.let { add(Uk.LIFT_CYL_COUNT to Numbers.format(it)) }
+            l.cylinderCount?.let {
+                add(Uk.LIFT_CYL_COUNT to Numbers.format(it))
+                add(Uk.LIFT_CYL_FULL to "${kotlin.math.ceil(it - 1e-9).toInt()} шт.")
+            }
         }
         rows.forEach { (k, v) -> ValueRow(k, v, { copy(k, v) }) }
     }
