@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ua.aerostat.core.NumbersTest" tests="23" skipped="0" failures="0" errors="0" timestamp="2026-10-21T00:49:06" hostname="runnervmxehtw" time="0.008">
+  <properties/>
+  <testcase name="leadingComma" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="decimalDot" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="hugeNumberParsedFinite" classname="ua.aerostat.core.NumbersTest" time="0.001"/>
+  <testcase name="trailingComma" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="formatUsesComma" classname="ua.aerostat.core.NumbersTest" time="0.001"/>
+  <testcase name="twoSeparatorsInvalid" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="formatRoundsHalfUp" classname="ua.aerostat.core.NumbersTest" time="0.001"/>
+  <testcase name="exponentInvalid" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="spacesAsThousands" classname="ua.aerostat.core.NumbersTest" time="0.001"/>
+  <testcase name="empty" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="decimalComma" classname="ua.aerostat.core.NumbersTest" time="0.001"/>
+  <testcase name="onlyMinusInvalid" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="formatNegative" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="lettersInvalid" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="formatZeroDecimals" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="onlyCommaInvalid" classname="ua.aerostat.core.NumbersTest" time="0.001"/>
+  <testcase name="nonBreakingSpaces" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="formatGroupsThousands" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="formatNaN" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="unicodeMinus" classname="ua.aerostat.core.NumbersTest" time="0.001"/>
+  <testcase name="toInputTrimsZeros" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="negativeParsed" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <testcase name="toInputInteger" classname="ua.aerostat.core.NumbersTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

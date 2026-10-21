@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ua.aerostat.core.CylinderPresetTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-21T00:49:06" hostname="runnervmxehtw" time="0.005">
+  <properties/>
+  <testcase name="customPresetKeepsOwnValues" classname="ua.aerostat.core.CylinderPresetTest" time="0.0"/>
+  <testcase name="standardNineGivesNineCubicMetres" classname="ua.aerostat.core.CylinderPresetTest" time="0.0"/>
+  <testcase name="defaultProjectCylinderCountIsComputed" classname="ua.aerostat.core.CylinderPresetTest" time="0.001"/>
+  <testcase name="presetsHaveSaneOutput" classname="ua.aerostat.core.CylinderPresetTest" time="0.003"/>
+  <testcase name="defaultProjectUsesNineCubicMetreCylinder" classname="ua.aerostat.core.CylinderPresetTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

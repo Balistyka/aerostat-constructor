@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ua.aerostat.core.InverseTest" tests="22" skipped="0" failures="0" errors="0" timestamp="2026-10-21T00:49:06" hostname="runnervmxehtw" time="0.032">
+  <properties/>
+  <testcase name="widthAboveMinimumWorks" classname="ua.aerostat.core.InverseTest" time="0.002"/>
+  <testcase name="gatheredRoundTrip" classname="ua.aerostat.core.InverseTest" time="0.003"/>
+  <testcase name="pearHasNoModel" classname="ua.aerostat.core.InverseTest" time="0.0"/>
+  <testcase name="invalidInputIsReported" classname="ua.aerostat.core.InverseTest" time="0.001"/>
+  <testcase name="thinnerFilmNeedsSmallerEnvelope" classname="ua.aerostat.core.InverseTest" time="0.001"/>
+  <testcase name="heliumNeedsBiggerEnvelopeThanHydrogen" classname="ua.aerostat.core.InverseTest" time="0.001"/>
+  <testcase name="inverseReportsCylinders" classname="ua.aerostat.core.InverseTest" time="0.001"/>
+  <testcase name="higherAltitudeNeedsBiggerEnvelope" classname="ua.aerostat.core.InverseTest" time="0.002"/>
+  <testcase name="smallPayloadRoundTrip" classname="ua.aerostat.core.InverseTest" time="0.001"/>
+  <testcase name="heavierPayloadNeedsBiggerEnvelope" classname="ua.aerostat.core.InverseTest" time="0.002"/>
+  <testcase name="ballastAndReserveCannotExceedLift" classname="ua.aerostat.core.InverseTest" time="0.0"/>
+  <testcase name="longerFlightNeedsBiggerEnvelope" classname="ua.aerostat.core.InverseTest" time="0.002"/>
+  <testcase name="cylinderRoundTrip" classname="ua.aerostat.core.InverseTest" time="0.003"/>
+  <testcase name="everyInverseFieldHasHelp" classname="ua.aerostat.core.InverseTest" time="0.0"/>
+  <testcase name="durationWithoutLossRateChangesNothing" classname="ua.aerostat.core.InverseTest" time="0.002"/>
+  <testcase name="gatheredHeightMatchesPractice" classname="ua.aerostat.core.InverseTest" time="0.002"/>
+  <testcase name="producedProjectKeepsShapeAndGas" classname="ua.aerostat.core.InverseTest" time="0.001"/>
+  <testcase name="hugePayloadIsOutOfRange" classname="ua.aerostat.core.InverseTest" time="0.001"/>
+  <testcase name="sphereRoundTrip" classname="ua.aerostat.core.InverseTest" time="0.001"/>
+  <testcase name="sleeveRoundTrip" classname="ua.aerostat.core.InverseTest" time="0.001"/>
+  <testcase name="cylinderLengthFollowsAspectRatio" classname="ua.aerostat.core.InverseTest" time="0.001"/>
+  <testcase name="narrowSleeveIsImpossible" classname="ua.aerostat.core.InverseTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

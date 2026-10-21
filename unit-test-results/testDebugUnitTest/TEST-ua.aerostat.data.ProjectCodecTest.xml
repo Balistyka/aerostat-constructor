@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ua.aerostat.data.ProjectCodecTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-21T00:49:06" hostname="runnervmxehtw" time="0.051">
+  <properties/>
+  <testcase name="keepsRawInputWithComma" classname="ua.aerostat.data.ProjectCodecTest" time="0.035"/>
+  <testcase name="emptyOrCorruptDataGivesEmptyList" classname="ua.aerostat.data.ProjectCodecTest" time="0.002"/>
+  <testcase name="roundTripKeepsEverythingExactly" classname="ua.aerostat.data.ProjectCodecTest" time="0.002"/>
+  <testcase name="unknownFieldsAndMissingFieldsTolerated" classname="ua.aerostat.data.ProjectCodecTest" time="0.011"/>
+  <testcase name="unknownEnumValueFallsBackToDefault" classname="ua.aerostat.data.ProjectCodecTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

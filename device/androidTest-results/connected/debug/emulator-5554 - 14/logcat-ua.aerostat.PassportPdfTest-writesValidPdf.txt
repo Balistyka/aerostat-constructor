@@ -1,0 +1,7 @@
+10-21 00:53:46.822  5176  5204 I TestRunner: started: writesValidPdf(ua.aerostat.PassportPdfTest)
+10-21 00:53:47.036  1466  1466 V ContactsProvider: Scheduled notifyChange started.
+10-21 00:53:47.039  1027  1027 D BluetoothPbapService:  onChange on contact uri
+10-21 00:53:47.060  1027  6549 D BluetoothPbapUtils: primaryVersionCounter = 0, secondaryVersionCounter=0
+10-21 00:53:47.079  5955  6493 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.icing.proxy.IcingInternalCorporaUpdateService started execution. cause:9 exec_start_elapsed_seconds: 213 [CONTEXT service_id=218 ]
+10-21 00:53:47.085  5955  6213 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.icing.proxy.IcingInternalCorporaUpdateService finished executing. cause:9 result: 1 elapsed_millis: 14 uptime_millis: 14 exec_start_elapsed_seconds: 213 [CONTEXT service_id=218 ]
+10-21 00:53:47.148  5176  5204 I TestRunner: finished: writesValidPdf(ua.aerostat.PassportPdfTest)

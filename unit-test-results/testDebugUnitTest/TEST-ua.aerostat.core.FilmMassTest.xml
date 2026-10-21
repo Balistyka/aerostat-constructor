@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ua.aerostat.core.FilmMassTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-21T00:49:06" hostname="runnervmxehtw" time="0.001">
+  <properties/>
+  <testcase name="negativeAreaIsRejected" classname="ua.aerostat.core.FilmMassTest" time="0.0"/>
+  <testcase name="micrometersAreConvertedToMeters" classname="ua.aerostat.core.FilmMassTest" time="0.0"/>
+  <testcase name="massIsAreaTimesThicknessInMetersTimesDensity" classname="ua.aerostat.core.FilmMassTest" time="0.0"/>
+  <testcase name="negativeThicknessIsRejected" classname="ua.aerostat.core.FilmMassTest" time="0.0"/>
+  <testcase name="largeNumbersStayFinite" classname="ua.aerostat.core.FilmMassTest" time="0.0"/>
+  <testcase name="zeroAreaGivesZeroMass" classname="ua.aerostat.core.FilmMassTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

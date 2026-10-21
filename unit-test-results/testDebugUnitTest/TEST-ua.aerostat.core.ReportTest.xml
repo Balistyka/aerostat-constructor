@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ua.aerostat.core.ReportTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-21T00:49:06" hostname="runnervmxehtw" time="0.013">
+  <properties/>
+  <testcase name="passportContainsKeySections" classname="ua.aerostat.core.ReportTest" time="0.005"/>
+  <testcase name="plainTextHasDisclaimerAndCommaNumbers" classname="ua.aerostat.core.ReportTest" time="0.004"/>
+  <testcase name="noFlightSuitabilityClaims" classname="ua.aerostat.core.ReportTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

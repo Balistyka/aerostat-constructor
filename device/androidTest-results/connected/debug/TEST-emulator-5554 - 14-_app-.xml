@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="ua.aerostat.MainFlowTest" tests="13" failures="0" errors="0" skipped="0" time="105.671" timestamp="2026-10-21T00:53:48" hostname="localhost">
+  <properties>
+    <property name="device" value="emulator-5554 - 14" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="liftAndPayloadAreComputed" classname="ua.aerostat.MainFlowTest" time="20.147" />
+  <testcase name="fieldHelpOpensFromEditor" classname="ua.aerostat.MainFlowTest" time="10.059" />
+  <testcase name="gatheredEnvelopeComputesFilmMass" classname="ua.aerostat.MainFlowTest" time="14.645" />
+  <testcase name="homeIsInUkrainian" classname="ua.aerostat.MainFlowTest" time="3.521" />
+  <testcase name="sphereProjectComputesFilmMass" classname="ua.aerostat.MainFlowTest" time="11.465" />
+  <testcase name="decimalCommaAccepted" classname="ua.aerostat.MainFlowTest" time="8.151" />
+  <testcase name="inversePicksEnvelopeAndCreatesProject" classname="ua.aerostat.MainFlowTest" time="5.959" />
+  <testcase name="pearShowsUnavailable" classname="ua.aerostat.MainFlowTest" time="4.84" />
+  <testcase name="projectIsPersistedToStorage" classname="ua.aerostat.MainFlowTest" time="7.588" />
+  <testcase name="negativeValueShowsError" classname="ua.aerostat.MainFlowTest" time="8.927" />
+  <testcase name="inverseReportsImpossibleNarrowSleeve" classname="ua.aerostat.MainFlowTest" time="4.8" />
+  <testcase name="helpOpensAndCloses" classname="ua.aerostat.MainFlowTest" time="3.804" />
+  <testcase name="writesValidPdf" classname="ua.aerostat.PassportPdfTest" time="0.281" />
+</testsuite>

@@ -1,0 +1,284 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.11.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:compileDebugKotlin UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:compileDebugJavaWithJavac NO-SOURCE
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:processDebugJavaRes UP-TO-DATE
+> Task :app:compileDebugUnitTestKotlin
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes
+
+> Task :app:testDebugUnitTest
+
+UkrainianStringsTest > inverseMessagesAreUkrainian PASSED
+
+UkrainianStringsTest > uiStringsObject PASSED
+
+UkrainianStringsTest > validationMessages PASSED
+
+UkrainianStringsTest > liftAssumptionsAreUkrainian PASSED
+
+UkrainianStringsTest > enums PASSED
+
+UkrainianStringsTest > helpTopics PASSED
+
+UkrainianStringsTest > reportText PASSED
+
+UkrainianStringsTest > brandingStrings PASSED
+
+AtmosphereTest > stratosphereIsIsothermal PASSED
+
+AtmosphereTest > seaLevelMatchesStandard PASSED
+
+AtmosphereTest > tenKilometresMatchesStandard PASSED
+
+AtmosphereTest > pressureFallsWithAltitude PASSED
+
+AtmosphereTest > gasDensitiesAtSeaLevel PASSED
+
+CalculatorLiftTest > negativeTemperatureIsAccepted PASSED
+
+CalculatorLiftTest > pearHasNoLift PASSED
+
+CalculatorLiftTest > liftIsComputedForEnvelope PASSED
+
+CalculatorLiftTest > fillFactorScalesVolume PASSED
+
+CalculatorLiftTest > invalidAltitudeBlocksLift PASSED
+
+CalculatorTest > userGoreCountTooSmall PASSED
+
+CalculatorTest > rollNarrowerThanSeams PASSED
+
+CalculatorTest > withValueRoundTrip PASSED
+
+CalculatorTest > gatherPartZeroIsAllowed PASSED
+
+CalculatorTest > pearIsUnavailable PASSED
+
+CalculatorTest > gatheredEnvelopeWorkingHeightAndVolume PASSED
+
+CalculatorTest > gatheredEnvelopeAreaIsTwoWalls PASSED
+
+CalculatorTest > resetKeepsShape PASSED
+
+CalculatorTest > invalidInputGivesNoMass PASSED
+
+CalculatorTest > openVariantAddsAppendix PASSED
+
+CalculatorTest > cylinderArea PASSED
+
+CalculatorTest > userGoreCountAccepted PASSED
+
+CalculatorTest > gatherPartCannotExceedHeight PASSED
+
+CalculatorTest > sleeveAreaIsTwoWalls PASSED
+
+CalculatorTest > layersMultiplyArea PASSED
+
+CalculatorTest > sphereMass PASSED
+
+CylinderPresetTest > customPresetKeepsOwnValues PASSED
+
+CylinderPresetTest > standardNineGivesNineCubicMetres PASSED
+
+CylinderPresetTest > defaultProjectCylinderCountIsComputed PASSED
+
+CylinderPresetTest > presetsHaveSaneOutput PASSED
+
+CylinderPresetTest > defaultProjectUsesNineCubicMetreCylinder PASSED
+
+FilmMassTest > negativeAreaIsRejected PASSED
+
+FilmMassTest > micrometersAreConvertedToMeters PASSED
+
+FilmMassTest > massIsAreaTimesThicknessInMetersTimesDensity PASSED
+
+FilmMassTest > negativeThicknessIsRejected PASSED
+
+FilmMassTest > largeNumbersStayFinite PASSED
+
+FilmMassTest > zeroAreaGivesZeroMass PASSED
+
+GeometryTest > goreTableAreaMatchesSphere PASSED
+
+GeometryTest > minGores PASSED
+
+GeometryTest > sleeve PASSED
+
+GeometryTest > sphere PASSED
+
+GeometryTest > cylinder PASSED
+
+InverseTest > widthAboveMinimumWorks PASSED
+
+InverseTest > gatheredRoundTrip PASSED
+
+InverseTest > pearHasNoModel PASSED
+
+InverseTest > invalidInputIsReported PASSED
+
+InverseTest > thinnerFilmNeedsSmallerEnvelope PASSED
+
+InverseTest > heliumNeedsBiggerEnvelopeThanHydrogen PASSED
+
+InverseTest > inverseReportsCylinders PASSED
+
+InverseTest > higherAltitudeNeedsBiggerEnvelope PASSED
+
+InverseTest > smallPayloadRoundTrip PASSED
+
+InverseTest > heavierPayloadNeedsBiggerEnvelope PASSED
+
+InverseTest > ballastAndReserveCannotExceedLift PASSED
+
+InverseTest > longerFlightNeedsBiggerEnvelope PASSED
+
+InverseTest > cylinderRoundTrip PASSED
+
+InverseTest > everyInverseFieldHasHelp PASSED
+
+InverseTest > durationWithoutLossRateChangesNothing PASSED
+
+InverseTest > gatheredHeightMatchesPractice PASSED
+
+InverseTest > producedProjectKeepsShapeAndGas PASSED
+
+InverseTest > hugePayloadIsOutOfRange PASSED
+
+InverseTest > sphereRoundTrip PASSED
+
+InverseTest > sleeveRoundTrip PASSED
+
+InverseTest > cylinderLengthFollowsAspectRatio PASSED
+
+InverseTest > narrowSleeveIsImpossible PASSED
+
+LiftTest > heliumLiftsLessThanHydrogen PASSED
+
+LiftTest > payloadIsLiftMinusBallastAndEnvelope PASSED
+
+LiftTest > cylinderOutputAndCount PASSED
+
+LiftTest > grossLiftAtAltitude PASSED
+
+LiftTest > noEnvelopeMassMeansNoPayload PASSED
+
+LiftTest > groundFillIsSmallerThanEnvelope PASSED
+
+LiftTest > zeroBallastGivesLargerPayload PASSED
+
+LiftTest > liftAtGroundUsesPartialFill PASSED
+
+LiftTest > heavierEnvelopeMeansSmallerPayload PASSED
+
+NumbersTest > leadingComma PASSED
+
+NumbersTest > decimalDot PASSED
+
+NumbersTest > hugeNumberParsedFinite PASSED
+
+NumbersTest > trailingComma PASSED
+
+NumbersTest > formatUsesComma PASSED
+
+NumbersTest > twoSeparatorsInvalid PASSED
+
+NumbersTest > formatRoundsHalfUp PASSED
+
+NumbersTest > exponentInvalid PASSED
+
+NumbersTest > spacesAsThousands PASSED
+
+NumbersTest > empty PASSED
+
+NumbersTest > decimalComma PASSED
+
+NumbersTest > onlyMinusInvalid PASSED
+
+NumbersTest > formatNegative PASSED
+
+NumbersTest > lettersInvalid PASSED
+
+NumbersTest > formatZeroDecimals PASSED
+
+NumbersTest > onlyCommaInvalid PASSED
+
+NumbersTest > nonBreakingSpaces PASSED
+
+NumbersTest > formatGroupsThousands PASSED
+
+NumbersTest > formatNaN PASSED
+
+NumbersTest > unicodeMinus PASSED
+
+NumbersTest > toInputTrimsZeros PASSED
+
+NumbersTest > negativeParsed PASSED
+
+NumbersTest > toInputInteger PASSED
+
+ReportTest > passportContainsKeySections PASSED
+
+ReportTest > plainTextHasDisclaimerAndCommaNumbers PASSED
+
+ReportTest > noFlightSuitabilityClaims PASSED
+
+ValidationTest > okValue PASSED
+
+ValidationTest > zeroNotAllowed PASSED
+
+ValidationTest > emptyOptionalIsOk PASSED
+
+ValidationTest > tooLarge PASSED
+
+ValidationTest > tooSmall PASSED
+
+ValidationTest > invalidText PASSED
+
+ValidationTest > everyFieldHasRule PASSED
+
+ValidationTest > zeroAllowedForWaste PASSED
+
+ValidationTest > zeroAllowedForFittings PASSED
+
+ValidationTest > emptyRequired PASSED
+
+ValidationTest > negative PASSED
+
+ValidationTest > integerRequired PASSED
+
+ProjectCodecTest > keepsRawInputWithComma PASSED
+
+ProjectCodecTest > emptyOrCorruptDataGivesEmptyList PASSED
+
+ProjectCodecTest > roundTripKeepsEverythingExactly PASSED
+
+ProjectCodecTest > unknownFieldsAndMissingFieldsTolerated PASSED
+
+ProjectCodecTest > unknownEnumValueFallsBackToDefault PASSED
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_3-1792543729549.json
+
+BUILD SUCCESSFUL in 20s
+22 actionable tasks: 5 executed, 1 from cache, 16 up-to-date
+testDebugUnitTest exit code: 0

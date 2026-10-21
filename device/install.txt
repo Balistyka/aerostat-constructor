@@ -1,0 +1,3 @@
+== Встановлення APK ==
+Performing Streamed Install
+Success

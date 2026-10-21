@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ua.aerostat.UkrainianStringsTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-10-21T00:49:06" hostname="runnervmxehtw" time="0.187">
+  <properties/>
+  <testcase name="inverseMessagesAreUkrainian" classname="ua.aerostat.UkrainianStringsTest" time="0.089"/>
+  <testcase name="uiStringsObject" classname="ua.aerostat.UkrainianStringsTest" time="0.014"/>
+  <testcase name="validationMessages" classname="ua.aerostat.UkrainianStringsTest" time="0.02"/>
+  <testcase name="liftAssumptionsAreUkrainian" classname="ua.aerostat.UkrainianStringsTest" time="0.002"/>
+  <testcase name="enums" classname="ua.aerostat.UkrainianStringsTest" time="0.004"/>
+  <testcase name="helpTopics" classname="ua.aerostat.UkrainianStringsTest" time="0.009"/>
+  <testcase name="reportText" classname="ua.aerostat.UkrainianStringsTest" time="0.044"/>
+  <testcase name="brandingStrings" classname="ua.aerostat.UkrainianStringsTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

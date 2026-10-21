@@ -1,0 +1,9 @@
+
+ua.aerostat.ScreenshotTest:.
+ua.aerostat.PassportPdfTest:.
+
+Time: 27,925
+
+OK (2 tests)
+
+

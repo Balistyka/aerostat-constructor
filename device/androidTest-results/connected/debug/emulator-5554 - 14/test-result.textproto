@@ -1,0 +1,692 @@
+# 2026-10-21T00:53:48.915525552Z:
+test_suite_meta_data {
+  scheduled_test_case_count: 13
+}
+test_status: PASSED
+test_result {
+  test_case {
+    test_class: "MainFlowTest"
+    test_package: "ua.aerostat"
+    test_method: "liftAndPayloadAreComputed"
+    start_time {
+      seconds: 1792543923
+      nanos: 146000000
+    }
+    end_time {
+      seconds: 1792543943
+      nanos: 306000000
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-ua.aerostat.MainFlowTest-liftAndPayloadAreComputed.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "MainFlowTest"
+    test_package: "ua.aerostat"
+    test_method: "fieldHelpOpensFromEditor"
+    start_time {
+      seconds: 1792543943
+      nanos: 338000000
+    }
+    end_time {
+      seconds: 1792543953
+      nanos: 418000000
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-ua.aerostat.MainFlowTest-fieldHelpOpensFromEditor.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "MainFlowTest"
+    test_package: "ua.aerostat"
+    test_method: "gatheredEnvelopeComputesFilmMass"
+    start_time {
+      seconds: 1792543953
+      nanos: 423000000
+    }
+    end_time {
+      seconds: 1792543968
+      nanos: 59000000
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-ua.aerostat.MainFlowTest-gatheredEnvelopeComputesFilmMass.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "MainFlowTest"
+    test_package: "ua.aerostat"
+    test_method: "homeIsInUkrainian"
+    start_time {
+      seconds: 1792543968
+      nanos: 94000000
+    }
+    end_time {
+      seconds: 1792543971
+      nanos: 607000000
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-ua.aerostat.MainFlowTest-homeIsInUkrainian.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "MainFlowTest"
+    test_package: "ua.aerostat"
+    test_method: "sphereProjectComputesFilmMass"
+    start_time {
+      seconds: 1792543971
+      nanos: 614000000
+    }
+    end_time {
+      seconds: 1792543983
+      nanos: 79000000
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-ua.aerostat.MainFlowTest-sphereProjectComputesFilmMass.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "MainFlowTest"
+    test_package: "ua.aerostat"
+    test_method: "decimalCommaAccepted"
+    start_time {
+      seconds: 1792543983
+      nanos: 84000000
+    }
+    end_time {
+      seconds: 1792543991
+      nanos: 241000000
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-ua.aerostat.MainFlowTest-decimalCommaAccepted.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "MainFlowTest"
+    test_package: "ua.aerostat"
+    test_method: "inversePicksEnvelopeAndCreatesProject"
+    start_time {
+      seconds: 1792543991
+      nanos: 273000000
+    }
+    end_time {
+      seconds: 1792543997
+      nanos: 221000000
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-ua.aerostat.MainFlowTest-inversePicksEnvelopeAndCreatesProject.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "MainFlowTest"
+    test_package: "ua.aerostat"
+    test_method: "pearShowsUnavailable"
+    start_time {
+      seconds: 1792543997
+      nanos: 227000000
+    }
+    end_time {
+      seconds: 1792544002
+      nanos: 63000000
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-ua.aerostat.MainFlowTest-pearShowsUnavailable.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "MainFlowTest"
+    test_package: "ua.aerostat"
+    test_method: "projectIsPersistedToStorage"
+    start_time {
+      seconds: 1792544002
+      nanos: 73000000
+    }
+    end_time {
+      seconds: 1792544009
+      nanos: 657000000
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-ua.aerostat.MainFlowTest-projectIsPersistedToStorage.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "MainFlowTest"
+    test_package: "ua.aerostat"
+    test_method: "negativeValueShowsError"
+    start_time {
+      seconds: 1792544009
+      nanos: 687000000
+    }
+    end_time {
+      seconds: 1792544018
+      nanos: 608000000
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-ua.aerostat.MainFlowTest-negativeValueShowsError.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "MainFlowTest"
+    test_package: "ua.aerostat"
+    test_method: "inverseReportsImpossibleNarrowSleeve"
+    start_time {
+      seconds: 1792544018
+      nanos: 766000000
+    }
+    end_time {
+      seconds: 1792544023
+      nanos: 567000000
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-ua.aerostat.MainFlowTest-inverseReportsImpossibleNarrowSleeve.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "MainFlowTest"
+    test_package: "ua.aerostat"
+    test_method: "helpOpensAndCloses"
+    start_time {
+      seconds: 1792544023
+      nanos: 570000000
+    }
+    end_time {
+      seconds: 1792544027
+      nanos: 372000000
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-ua.aerostat.MainFlowTest-helpOpensAndCloses.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "PassportPdfTest"
+    test_package: "ua.aerostat"
+    test_method: "writesValidPdf"
+    start_time {
+      seconds: 1792544027
+      nanos: 379000000
+    }
+    end_time {
+      seconds: 1792544027
+      nanos: 659000000
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-ua.aerostat.PassportPdfTest-writesValidPdf.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+output_artifact {
+  label {
+    label: "test-results.log"
+    namespace: "com.google.testing.platform.runtime.android.driver.AndroidInstrumentationDriver"
+  }
+  source_path {
+    path: "/home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/testlog/test-results.log"
+  }
+  type: TEST_DATA
+  mime_type: "text/plain"
+}

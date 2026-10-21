@@ -1,0 +1,42 @@
+EXECUTING: /usr/local/lib/android/sdk/build-tools/34.0.0/aapt dump badging /home/runner/work/aerostat-constructor/aerostat-constructor/app/build/outputs/apk/debug/app-debug.apk
+CURRENT_WORKING_DIRECTORY: /home/runner/work/aerostat-constructor/aerostat-constructor
+START_TIME: 2026-10-21 00:53:48.014
+START_TIME-NANOS: 2026-10-21 00:53:48.014205315
+ENVIRONMENT:
+
+*****************************************
+STDOUT/STDERR BELOW
+===================
+package: name='ua.aerostat' versionCode='5' versionName='0.5' platformBuildVersionName='15' platformBuildVersionCode='35' compileSdkVersion='35' compileSdkVersionCodename='15'
+sdkVersion:'26'
+targetSdkVersion:'35'
+uses-permission: name='ua.aerostat.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'
+application-label:'Аеростат Конструктор'
+application-label-uk:'Аеростат Конструктор'
+application-icon-120:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-160:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-240:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-320:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-480:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-640:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-65534:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-65535:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application: label='Аеростат Конструктор' icon='res/mipmap-anydpi-v26/ic_launcher.xml'
+application-debuggable
+launchable-activity: name='ua.aerostat.MainActivity'  label='' icon=''
+feature-group: label=''
+  uses-feature: name='android.hardware.faketouch'
+  uses-implied-feature: name='android.hardware.faketouch' reason='default feature for all apps'
+main
+other-activities
+other-receivers
+supports-screens: 'small' 'normal' 'large' 'xlarge'
+supports-any-density: 'true'
+locales: '--_--' 'uk'
+densities: '120' '160' '240' '320' '480' '640' '65534' '65535'
+native-code: 'arm64-v8a' 'armeabi-v7a' 'x86' 'x86_64'
+===================
+END_TIME: 2026-10-21 00:53:48.166
+END_TIME-NANOS: 2026-10-21 00:53:48.166134807
+DURATION: 151ms
+EXIT CODE: 0

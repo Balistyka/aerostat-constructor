@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ua.aerostat.core.CalculatorTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2026-10-21T00:49:06" hostname="runnervmxehtw" time="0.01">
+  <properties/>
+  <testcase name="userGoreCountTooSmall" classname="ua.aerostat.core.CalculatorTest" time="0.002"/>
+  <testcase name="rollNarrowerThanSeams" classname="ua.aerostat.core.CalculatorTest" time="0.0"/>
+  <testcase name="withValueRoundTrip" classname="ua.aerostat.core.CalculatorTest" time="0.001"/>
+  <testcase name="gatherPartZeroIsAllowed" classname="ua.aerostat.core.CalculatorTest" time="0.0"/>
+  <testcase name="pearIsUnavailable" classname="ua.aerostat.core.CalculatorTest" time="0.001"/>
+  <testcase name="gatheredEnvelopeWorkingHeightAndVolume" classname="ua.aerostat.core.CalculatorTest" time="0.0"/>
+  <testcase name="gatheredEnvelopeAreaIsTwoWalls" classname="ua.aerostat.core.CalculatorTest" time="0.0"/>
+  <testcase name="resetKeepsShape" classname="ua.aerostat.core.CalculatorTest" time="0.001"/>
+  <testcase name="invalidInputGivesNoMass" classname="ua.aerostat.core.CalculatorTest" time="0.0"/>
+  <testcase name="openVariantAddsAppendix" classname="ua.aerostat.core.CalculatorTest" time="0.0"/>
+  <testcase name="cylinderArea" classname="ua.aerostat.core.CalculatorTest" time="0.0"/>
+  <testcase name="userGoreCountAccepted" classname="ua.aerostat.core.CalculatorTest" time="0.001"/>
+  <testcase name="gatherPartCannotExceedHeight" classname="ua.aerostat.core.CalculatorTest" time="0.0"/>
+  <testcase name="sleeveAreaIsTwoWalls" classname="ua.aerostat.core.CalculatorTest" time="0.001"/>
+  <testcase name="layersMultiplyArea" classname="ua.aerostat.core.CalculatorTest" time="0.0"/>
+  <testcase name="sphereMass" classname="ua.aerostat.core.CalculatorTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

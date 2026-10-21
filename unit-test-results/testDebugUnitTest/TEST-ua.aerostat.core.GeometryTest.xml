@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ua.aerostat.core.GeometryTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-21T00:49:06" hostname="runnervmxehtw" time="0.005">
+  <properties/>
+  <testcase name="goreTableAreaMatchesSphere" classname="ua.aerostat.core.GeometryTest" time="0.002"/>
+  <testcase name="minGores" classname="ua.aerostat.core.GeometryTest" time="0.0"/>
+  <testcase name="sleeve" classname="ua.aerostat.core.GeometryTest" time="0.0"/>
+  <testcase name="sphere" classname="ua.aerostat.core.GeometryTest" time="0.0"/>
+  <testcase name="cylinder" classname="ua.aerostat.core.GeometryTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

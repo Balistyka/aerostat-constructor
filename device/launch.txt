@@ -1,0 +1,9 @@
+== Запуск ==
+Starting: Intent { cmp=ua.aerostat/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: ua.aerostat/.MainActivity
+TotalTime: 6766
+WaitTime: 6770
+Complete
+PID після запуску: 3262
